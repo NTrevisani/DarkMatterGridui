@@ -7,9 +7,9 @@
 #include "TTree.h"
 #include <algorithm>
 
-const UInt_t nProcesses = 7 ;
+const UInt_t nProcesses = 6;//7 ;
 
-enum {iData, iWW, iHWW, /*iQCD,*/ iTop, iTTJets, iVBF, iWJets};
+enum {iData, iWW, iHWW, /*iQCD,*/ iTop, iTTJets, iVBF/*, iWJets*/};
 
 TFile* input[nProcesses];
 
@@ -23,7 +23,7 @@ process[iHWW]    = "HWW";
 process[iTop]    = "Top";
 process[iTTJets] = "TTJets";
 process[iVBF]    = "VBF";
-process[iWJets]  = "WJets";
+//process[iWJets]  = "WJets";
 
 Color_t color[nProcesses];
 
@@ -34,7 +34,7 @@ color[iHWW]    = kRed;
 color[iTop]    = kYellow+1;
 color[iTTJets] = kYellow;
 color[iVBF]    = kBlack;
-color[iWJets]  = kGreen;
+//color[iWJets]  = kGreen;
 
 // Relative errors directly from data cards (in %) 
 //------------------------------------------------------------------------------
@@ -45,8 +45,8 @@ enum backgrounds {
    QCD,
    Top,
    TTJets,
-   VBF,
-   WJets
+   VBF//,
+   //   WJets
 };
  
 
@@ -249,7 +249,7 @@ void drawDistributions(Int_t    njet       = 0,
     systError[iTop]    = 0.1; // 8%;
     systError[iTTJets] = 0.1; // 8%;
     systError[iVBF]    = 0.1; // 32%
-    systError[iWJets]  = 0.1; // 32%
+    //    systError[iWJets]  = 0.1; // 32%
 
     //    systError[ittFakes]   = 0.; // ?
 
@@ -372,7 +372,7 @@ void DrawHistogram(TString  hname,
   systError[iTop]    = 0.100; // 10%
   systError[iTTJets] = 0.100; // 10%
   systError[iVBF]    = 0.100; // 10%
-  systError[iWJets]  = 0.100; // 10%
+  //  systError[iWJets]  = 0.100; // 10%
 
   
   //[*] WW / ggWW/  Vg/ Wjets/ VVV/ DY/ VV/ ggH/ VgS
@@ -530,7 +530,7 @@ void DrawHistogram(TString  hname,
   DrawLegend(0.23, 0.74 - 1.*(yoffset+0.001), hist[iTop],    " Top",     "f",  0.035, 0.2, yoffset);
   DrawLegend(  x0, 0.74 + 1.*(yoffset+0.001), hist[iTTJets], " TTJets",  "f",  0.035, 0.2, yoffset);
   DrawLegend(  x0, 0.74                     , hist[iVBF],    " VBF",     "f",  0.035, 0.2, yoffset);  
-  DrawLegend(  x0, 0.74 - 1.*(yoffset+0.001), hist[iWJets],  " WJets",   "f",  0.035, 0.2, yoffset);
+  //  DrawLegend(  x0, 0.74 - 1.*(yoffset+0.001), hist[iWJets],  " WJets",   "f",  0.035, 0.2, yoffset);
   DrawLegend(  x0, 0.74 + 2.*(yoffset+0.001), allmc,       allmcTitle,   "f",  0.035, 0.2, yoffset);
   
   // Additional titles

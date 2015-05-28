@@ -72,12 +72,14 @@ class test: public PAFAnalysis{
    TH1F* hWeffnJetsBveto;
    TH1F* hWnJetsBvetoAfterHt;
    TH1F* hWeffnJetsBvetoAfterHt;
-
+   TH1F* hWmth;
+   TH1F* hWeffmth;
    TH1F* hWDeltaPhiJet;
    TH1F* hWSoftMuVeto;
    TH1F* hWExtraLepton;
    TH1F* hWPtll;
    TH1F* hWTopTagging;
+   TH1F* hWdphill;
 
    TH1F* hWeffTrigger;
    TH1F* hWeffMetCut;
@@ -90,6 +92,7 @@ class test: public PAFAnalysis{
    TH1F* hWeffExtraLepton;
    TH1F* hWeffPtll;
    TH1F* hWeffTopTagging;
+   TH1F* hWeffdphill;
 
    // WW level histograms                                                         
    //---------------------------------------------------------------------------- 
@@ -110,6 +113,8 @@ class test: public PAFAnalysis{
    TH1F* hDPhiPtllJetWWLevel[4];
    TH1F* hDataEvents[4];
    TH1F* hBackgroundEvents[4];
+   TH1F* hEff[4];
+   TH1F* hPtWW[4];
 
    TH1F* hPtLepton1WWLevelNoHt[4];
    TH1F* hPtLepton2WWLevelNoHt[4];
@@ -127,9 +132,31 @@ class test: public PAFAnalysis{
    TH1F* hDPhiPtllJetWWLevelNoHt[4];
    TH1F* hDataEventsNoHt[4];
    TH1F* hBackgroundEventsNoHt[4];
+   TH1F* hEffNoHt[4];
+   TH1F* hPtWWNoHt[4];
+
+   TH1F* hPtLepton1WWLevelHtPlus[4];
+   TH1F* hPtLepton2WWLevelHtPlus[4];
+   TH1F* hPtDiLeptonWWLevelHtPlus[4];
+   TH1F* hMinvWWLevelHtPlus[4];
+   TH1F* hMtWWLevelHtPlus[4];
+   TH1F* hNJets30WWLevelHtPlus[4];
+   TH1F* hpfMetWWLevelHtPlus[4];
+   TH1F* hppfMetWWLevelHtPlus[4];
+   TH1F* hchMetWWLevelHtPlus[4];
+   TH1F* hpchMetWWLevelHtPlus[4];
+   TH1F* hpminMetWWLevelHtPlus[4];
+   TH1F* hDeltaRLeptonsWWLevelHtPlus[4];
+   TH1F* hDeltaPhiLeptonsWWLevelHtPlus[4];
+   TH1F* hDPhiPtllJetWWLevelHtPlus[4];
+   TH1F* hDataEventsHtPlus[4];
+   TH1F* hBackgroundEventsHtPlus[4];
+   TH1F* hEffHtPlus[4];
+   TH1F* hPtWWHtPlus[4];
 
    TH1F* hHt[4];
    TH1F* hHtAfter[4];
+   TH1F* hPtWWNoBtagging[4];
 
    TH1F* h_WWLevel_TightFailEvents;
    TH1F* h_WWLevel_TightTightEvents;
@@ -144,6 +171,8 @@ class test: public PAFAnalysis{
    TH1F* hPtDiLeptonTwoLeptonsLevel;
    TH1F* hMinvTwoLeptonsLevel;
    TH1F* hMtTwoLeptonsLevel;
+   TH1F* hMt1TwoLeptonsLevel;
+   TH1F* hMt2TwoLeptonsLevel;
    TH1F* hNJets30TwoLeptonsLevel;
    TH1F* hpfMetTwoLeptonsLevel;
    TH1F* hppfMetTwoLeptonsLevel;
@@ -153,20 +182,14 @@ class test: public PAFAnalysis{
    TH1F* hDeltaRLeptonsTwoLeptonsLevel;
    TH1F* hDeltaPhiLeptonsTwoLeptonsLevel;
    TH1F* hDPhiPtllJetTwoLeptonsLevel;
-
+   TH1F* hDPhillMetTwoLeptonsLevel;
 
    TH1F* h_TwoLeptons_TightFailEvents;
    TH1F* h_TwoLeptons_TightTightEvents;
    TH1F* h_TwoLeptons_TightLooseEvents;
 
-   TH1F* hEff;
-   TH1F* hEffHt;
-
-   TH1F* hEff0bin;
-   TH1F* hEffHt0bin;
-
-  //Isolation Plots
-  //-----------------------------------------------------------------------------
+   //Isolation Plots
+   //-----------------------------------------------------------------------------
 
    TH1F* hIsoMu;
    TH1F* hIsoEl;
@@ -182,7 +205,8 @@ class test: public PAFAnalysis{
    
    TH1F* hPUMu;
    TH1F* hPUEl;
-   
+
+
  public:
  
    // My Declarations:

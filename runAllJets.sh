@@ -19,17 +19,19 @@ CHANNELS="OF"
 
 SAMPLES="
 Dark1              \
+Dark10             \
 Dark100            \
+Dark500            \
+Dark1000           \
 ZH                 \
+QCD                \ 
+Top                \
+WJets              \
+TTJets             \
+HWW                \
+WW                 \
+VBF                \
 "
-#QCD                \ 
-#Top                \
-#WJets              \
-#TTJets             \
-#HWW                \
-#WW                 \
-#VBF                \
-#"
 
 #rm -rf rootfiles/${NJETS}jet
 
