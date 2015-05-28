@@ -53,7 +53,7 @@ void RunPROOF_test(double luminosity,
   // * kLite: PROOF Lite mode
   // * kCluster: PROOF Cluter mode
   // * kPoD: PROOF on Demand mode
-  gPAFOptions->proofMode = kLite;
+  gPAFOptions->proofMode = kCluster;
   //
   // Optional parameters for PROOF Cluster (kCluster):
   //   + The number of slots you would like to use (default is 10)
@@ -117,38 +117,50 @@ void RunPROOF_test(double luminosity,
   if (Signal=="test") {
     
     if (theSample == "Dark1") {
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_Higgs_hzpzp_ww_1GeV.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_hzpzp_ww_1GeV.root");
+    }
+
+    if (theSample == "Dark10") {
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_hzpzp_ww_10GeV.root");
+    }
+    
+    if (theSample == "Dark100") {
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_hzpzp_ww_100GeV.root");
+    }
+
+    if (theSample == "Dark500") {
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_hzpzp_ww_500GeV.root");
+    }
+
+    if (theSample == "Dark1000") {
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_hzpzp_ww_1000GeV.root");
     }
 
     if (theSample == "ZH") {
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/stepB_ppTOzh_zTO2v_hTOwwTO2l2v_13TeV.root");
-    }
-
-    if (theSample == "Dark100") {
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_Higgs_hzpzp_ww_100GeV_13TeV.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_ppTOzh_zTO2v_hTOwwTO2l2v.root");
     }
 
     if (theSample == "Top") {
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_TBarToLeptons_s.root");
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_TBarToLeptons_t.root");
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_TToLeptons_s.root");
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_TToLeptons_t.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TBarToLeptons_s.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TBarToLeptons_t.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TToLeptons_s.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TToLeptons_t.root");
     }
     
     else if (theSample == "QCD"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_QCD_Pt-20toInf.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_QCD.root");
     }
-
+    
     else if (theSample == "WJets"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_WJetsToLNu.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_WJetsToLNu.root");
     }
-
+    
     else if (theSample == "WW"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_WWTo2L2Nu_Powheg_Spring14.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_WWTo2L2Nu.root");
     }
 
     else if (theSample == "HWW"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_HWW125.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_gg_HWW.root");
     }
 
     else if (theSample == "VBF"){
@@ -156,167 +168,152 @@ void RunPROOF_test(double luminosity,
     }
 
     else if (theSample == "TTJets"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_stepB_TTJets.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TTJets.root");
     }
 
-
+    else if (theSample == "DY"){
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_DYJetsToLL.root");
+    }
   }
-    else
-      return;
+  else
+    return;
     
 
-///////////////////////////////
-// OUTPUT FILE NAME
-// Specify the name of the file where you want your histograms to be saved
+  ///////////////////////////////
+  // OUTPUT FILE NAME
+  // Specify the name of the file where you want your histograms to be saved
 
-
-std::ostringstream out;
-
-TString outTest = out.str();
-
-//TString output = TString("csa14_GluGluToHToWWTo2LAndTau2Nu_M-125_13TeV_PUS14_Vertex.root"); 
-//TString output = TString("csa14_W1234JetsToLNu_Tune4C_13TeV_PUS14.root");
-//TString output = TString("csa14_WToMuNu_Tune4C_13TeV_PUS14.root");
-//TString output = TString("csa14_GluGluToHToWWTo2LAndTau2Nu_M-125_13TeV_PU20bx25.root");
-//TString output = TString("csa14_WJetsToLNu_13TeV-madgraph_PU20bx25.root"); 
-//TString output = TString("csa14_WJets_Madgraph_8Tev.root");
-//TString output = TString("csa14_HWW125_8Tev.root");
-
-TString jets = Form("%d",JetChannel);
-
-//  TString path = Form("rootfiles/%djet/%s/", JetChannel, FlavorChannel.Data());
-
-TString output = TString(theSample+".root");
-
-
-
-//TString output = TString(Signal+".root"); 
-
-gPAFOptions->outputFile=output;
-
-
-
-///////////////////////////////
-// PARAMETERS FOR THE ANALYSIS
-// This parameters are passed to the analysis class and can be use there.
-// They are stored in a InputParameters object. They are saved to the 
-// output file.
-// See packages/InputParameters/InputParameters.h for information on how
-// to use this class.
-
-//  std::string sample = theSample;
-
-gPAFOptions->inputParameters = new InputParameters();
-
-gPAFOptions->inputParameters->SetNamedBool("IsDATA", isdata);
-gPAFOptions->inputParameters->SetNamedString("Signal", data);
-gPAFOptions->inputParameters->SetNamedDouble("XSection", xSection);
-gPAFOptions->inputParameters->SetNamedDouble("Luminosity", luminosity);
-gPAFOptions->inputParameters->SetNamedInt("NEvents", nEventsInTheSample); // all
-gPAFOptions->inputParameters->SetNamedFloat("luminosityPU", 19468.3);  
-gPAFOptions->inputParameters->SetNamedInt("WhichRun", whichRun);
-gPAFOptions->inputParameters->SetNamedString("theSample", theSample.Data());
-gPAFOptions->inputParameters->SetNamedString("FlavorChannel", FlavorChannel.Data());
-gPAFOptions->inputParameters->SetNamedInt("jetChannel", JetChannel);
-
-////// I.G.
-//Find the total number of entries in the dataset and send it to the input parameters
-/*  TChain* chain = new TChain("Tree", "Tree");
-    for (unsigned int i = 0; i < dataFiles.size(); i++) 
-    chain->Add(dataFiles[i]);
-    gPAFOptions->inputParameters->SetNamedInt("NEventsTotal", chain->GetEntries()); //after skimming
-    TString eventsfile(gSystem->pwd());
-    eventsfile+="/";
-    eventsfile+=Signal;
-    eventsfile+="_events.log";
-    gPAFOptions->inputParameters->SetNamedString("fFileList", (const char*) eventsfile);
-*/
-
-///////////////////////////////
-// DYNAMIC HISTOGRAMS
-// Specify the name of the histograms you would like to monitor as they are
-// filled by PROOF
-//
-//  gPAFOptions->dynamicHistograms.push_back("myHistogram");
-//...
-
-/////////////////////////////
-// NUMBER OF EVENTS 
-// Specify the number (Long64_t) of events to process.
-// Set it to -1 to use the full sample.
-
-gPAFOptions->SetNEvents(-1);
-
-//
-/////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-/////////////////////////////////////////////////////////////////////////
-//
-// EXTRA proof settings:
-// ====================
-//
-// It is unlikely that you need to edit anything below. At least at the
-// beginning of your PAF experience. However we provide a couple of hooks
-// for extensions.
-//
-
-///////////////////////////////
-// NAME OF ANALYSIS CLASS. 
-// If 0 the default name schema will be used, i.e. depending on the value
-// of gPAFOptions->treeType: MyAnalysisTESCO or MyAnalsyisMiniTrees
-//
-
-gPAFOptions->SetAnalysis("test");
-
-
-///////////////////////////////
-// ADDITIONAL PACKAGES TO BE UPLOADED TO PROOF.
-// The mandatory ones are added automatically in PAFOptions
-//
-
-
-gPAFOptions->AddPackage("PUWeight");
-//  gPAFOptions->AddPackage("MuonIsoMVA");
-
-
-///////////////////////////////
-// CONTROL OUTPUT AND CHECKS
-// + If true (default) PAF checks for new version in CVS every time
-// gPAFOptions->checkVersion = true;
-// + If true (default) the output file is reopened so the objects in the
-//   file can be interactively accessed. The object in the output are also
-//   listed
-// gPAFOptions->reopenOutputFile = false;
-
-//
-/////////////////////////////////////////////////////////////////////////
-
-
-
-
-/////////////////////////////////////////////////////////////////////////
-//
-// RUN THE ANALYSIS
-// ================
-//
-// If something needs to be edited below (or inside), contact the 
-// developers.
-//
-// Run the analysis
-//
-//gPAFOptions->reopenOutputFile = false;
-gPAFOptions->reopenOutputFileRemoved= false;
-
-if (!RunAnalysis())
-  cerr << "ERROR: There was a problem running the analysis!" << endl;
-//
-/////////////////////////////////////////////////////////////////////////
-
-
+  std::ostringstream out;
+  
+  TString outTest = out.str();
+  
+  //TString output = TString("csa14_GluGluToHToWWTo2LAndTau2Nu_M-125_13TeV_PUS14_Vertex.root"); 
+  //TString output = TString("csa14_W1234JetsToLNu_Tune4C_13TeV_PUS14.root");
+  //TString output = TString("csa14_WToMuNu_Tune4C_13TeV_PUS14.root");
+  //TString output = TString("csa14_GluGluToHToWWTo2LAndTau2Nu_M-125_13TeV_PU20bx25.root");
+  //TString output = TString("csa14_WJetsToLNu_13TeV-madgraph_PU20bx25.root"); 
+  //TString output = TString("csa14_WJets_Madgraph_8Tev.root");
+  //TString output = TString("csa14_HWW125_8Tev.root");
+  
+  TString jets = Form("%d",JetChannel);
+  
+  //  TString path = Form("rootfiles/%djet/%s/", JetChannel, FlavorChannel.Data());
+  
+  TString output = TString(theSample+".root");
+  
+  //TString output = TString(Signal+".root"); 
+  
+  gPAFOptions->outputFile=output;
+  
+  ///////////////////////////////
+  // PARAMETERS FOR THE ANALYSIS
+  // This parameters are passed to the analysis class and can be use there.
+  // They are stored in a InputParameters object. They are saved to the 
+  // output file.
+  // See packages/InputParameters/InputParameters.h for information on how
+  // to use this class.
+  
+  //  std::string sample = theSample;
+  
+  gPAFOptions->inputParameters = new InputParameters();
+  
+  gPAFOptions->inputParameters->SetNamedBool("IsDATA", isdata);
+  gPAFOptions->inputParameters->SetNamedString("Signal", data);
+  gPAFOptions->inputParameters->SetNamedDouble("XSection", xSection);
+  gPAFOptions->inputParameters->SetNamedDouble("Luminosity", luminosity);
+  gPAFOptions->inputParameters->SetNamedInt("NEvents", nEventsInTheSample); // all
+  gPAFOptions->inputParameters->SetNamedFloat("luminosityPU", 19468.3);  
+  gPAFOptions->inputParameters->SetNamedInt("WhichRun", whichRun);
+  gPAFOptions->inputParameters->SetNamedString("theSample", theSample.Data());
+  gPAFOptions->inputParameters->SetNamedString("FlavorChannel", FlavorChannel.Data());
+  gPAFOptions->inputParameters->SetNamedInt("jetChannel", JetChannel);
+  
+  ////// I.G.
+  //Find the total number of entries in the dataset and send it to the input parameters
+  /*  TChain* chain = new TChain("Tree", "Tree");
+      for (unsigned int i = 0; i < dataFiles.size(); i++) 
+      chain->Add(dataFiles[i]);
+      gPAFOptions->inputParameters->SetNamedInt("NEventsTotal", chain->GetEntries()); //after skimming
+      TString eventsfile(gSystem->pwd());
+      eventsfile+="/";
+      eventsfile+=Signal;
+      eventsfile+="_events.log";
+      gPAFOptions->inputParameters->SetNamedString("fFileList", (const char*) eventsfile);
+  */
+  
+  ///////////////////////////////
+  // DYNAMIC HISTOGRAMS
+  // Specify the name of the histograms you would like to monitor as they are
+  // filled by PROOF
+  //
+  //  gPAFOptions->dynamicHistograms.push_back("myHistogram");
+  //...
+  
+  /////////////////////////////
+  // NUMBER OF EVENTS 
+  // Specify the number (Long64_t) of events to process.
+  // Set it to -1 to use the full sample.
+  
+  gPAFOptions->SetNEvents(-1);
+  
+  //
+  /////////////////////////////////////////////////////////////////////////
+  
+  /////////////////////////////////////////////////////////////////////////
+  //
+  // EXTRA proof settings:
+  // ====================
+  //
+  // It is unlikely that you need to edit anything below. At least at the
+  // beginning of your PAF experience. However we provide a couple of hooks
+  // for extensions.
+  //
+  
+  ///////////////////////////////
+  // NAME OF ANALYSIS CLASS. 
+  // If 0 the default name schema will be used, i.e. depending on the value
+  // of gPAFOptions->treeType: MyAnalysisTESCO or MyAnalsyisMiniTrees
+  //
+  
+  gPAFOptions->SetAnalysis("test");
+  
+  
+  ///////////////////////////////
+  // ADDITIONAL PACKAGES TO BE UPLOADED TO PROOF.
+  // The mandatory ones are added automatically in PAFOptions
+  //
+  
+  gPAFOptions->AddPackage("PUWeight");
+  //  gPAFOptions->AddPackage("MuonIsoMVA");
+  
+  ///////////////////////////////
+  // CONTROL OUTPUT AND CHECKS
+  // + If true (default) PAF checks for new version in CVS every time
+  // gPAFOptions->checkVersion = true;
+  // + If true (default) the output file is reopened so the objects in the
+  //   file can be interactively accessed. The object in the output are also
+  //   listed
+  // gPAFOptions->reopenOutputFile = false;
+  
+  //
+  /////////////////////////////////////////////////////////////////////////
+  
+  /////////////////////////////////////////////////////////////////////////
+  //
+  // RUN THE ANALYSIS
+  // ================
+  //
+  // If something needs to be edited below (or inside), contact the 
+  // developers.
+  //
+  // Run the analysis
+  //
+  //gPAFOptions->reopenOutputFile = false;
+  gPAFOptions->reopenOutputFileRemoved= false;
+  
+  if (!RunAnalysis())
+    cerr << "ERROR: There was a problem running the analysis!" << endl;
+  //
+  /////////////////////////////////////////////////////////////////////////
+  
 }
