@@ -53,6 +53,8 @@ class test: public PAFAnalysis{
 
    TH1F* h_n_PV; 
 
+   TTree *tree;
+
 
    // Counting histograms                                                                  //----------------------------------------------------------------------------       
 
@@ -115,6 +117,8 @@ class test: public PAFAnalysis{
    TH1F* hBackgroundEvents[4];
    TH1F* hEff[4];
    TH1F* hPtWW[4];
+   TH1F* hMcWWLevel[4];
+   TH1F* hTrkMetWWLevel[4];
 
    TH1F* hPtLepton1WWLevelNoHt[4];
    TH1F* hPtLepton2WWLevelNoHt[4];
@@ -134,6 +138,7 @@ class test: public PAFAnalysis{
    TH1F* hBackgroundEventsNoHt[4];
    TH1F* hEffNoHt[4];
    TH1F* hPtWWNoHt[4];
+   TH1F* hMcWWLevelNoHt[4];
 
    TH1F* hPtLepton1WWLevelHtPlus[4];
    TH1F* hPtLepton2WWLevelHtPlus[4];
@@ -153,6 +158,7 @@ class test: public PAFAnalysis{
    TH1F* hBackgroundEventsHtPlus[4];
    TH1F* hEffHtPlus[4];
    TH1F* hPtWWHtPlus[4];
+   TH1F* hMcWWLevelHtPlus[4];
 
    TH1F* hHt[4];
    TH1F* hHtAfter[4];
@@ -183,6 +189,9 @@ class test: public PAFAnalysis{
    TH1F* hDeltaPhiLeptonsTwoLeptonsLevel;
    TH1F* hDPhiPtllJetTwoLeptonsLevel;
    TH1F* hDPhillMetTwoLeptonsLevel;
+   TH1F* hMcTwoLeptonsLevel;
+   TH1F* hPtWWTwoLeptonsLevel;
+   TH1F* hTrkMetTwoLeptonsLevel;
 
    TH1F* h_TwoLeptons_TightFailEvents;
    TH1F* h_TwoLeptons_TightTightEvents;

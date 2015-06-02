@@ -132,8 +132,10 @@ void test::Initialise() {
     hDPhiPtllJetWWLevel[nC]     = CreateH1F(Form("hDPhiPtllJetWWLevel%.1i", nC),     "",  32, 0, 3.2);
     hDataEvents[nC]             = CreateH1F(Form("hDataEvents%.1i", nC),             "",  32, 0, 3.2);
     hBackgroundEvents[nC]       = CreateH1F(Form("hBackgroundEvents%.1i", nC),       "",  32, 0, 3.2);
-    hEff[nC]                    = CreateH1F(Form("hEff%.1i", nC),                     "",  100, 0, 10);
-    hPtWW[nC]                   = CreateH1F(Form("hPtWW%.1i", nC),                    "", 1000, 0, 1000);
+    hEff[nC]                    = CreateH1F(Form("hEff%.1i", nC),                    "",  100, 0, 10);
+    hPtWW[nC]                   = CreateH1F(Form("hPtWW%.1i", nC),                   "", 1000, 0, 1000);
+    hMcWWLevel[nC]              = CreateH1F(Form("hMcWWLevel%.1i", nC),              "", 1000, 0, 1000);
+    hTrkMetWWLevel[nC]          = CreateH1F(Form("hTrkMetWWLevel%.1i", nC),          "", 1000, 0, 1000);
 
     hPtLepton1WWLevelNoHt[nC]       = CreateH1F(Form("hPtLepton1WWLevelNoHt%.1i", nC),       "", 1000, 0, 1000);
     hPtLepton2WWLevelNoHt[nC]       = CreateH1F(Form("hPtLepton2WWLevelNoHt%.1i", nC),       "", 1000, 0, 1000);
@@ -153,6 +155,7 @@ void test::Initialise() {
     hBackgroundEventsNoHt[nC]       = CreateH1F(Form("hBackgroundEventsNoHt%.1i", nC),       "",  32, 0, 3.2);
     hEffNoHt[nC]                    = CreateH1F(Form("hEffNoHt%.1i", nC),                     "",  100, 0, 10);
     hPtWWNoHt[nC]                   = CreateH1F(Form("hPtWWNoHt%.1i", nC),                    "", 1000, 0, 1000);
+    hMcWWLevelNoHt[nC]              = CreateH1F(Form("hMcWWLevelNoHt%.1i", nC),               "", 1000, 0, 1000);
 
     hPtLepton1WWLevelHtPlus[nC]       = CreateH1F(Form("hPtLepton1WWLevelHtPlus%.1i", nC),       "", 1000, 0, 1000);
     hPtLepton2WWLevelHtPlus[nC]       = CreateH1F(Form("hPtLepton2WWLevelHtPlus%.1i", nC),       "", 1000, 0, 1000);
@@ -172,6 +175,7 @@ void test::Initialise() {
     hBackgroundEventsHtPlus[nC]       = CreateH1F(Form("hBackgroundEventsHtPlus%.1i", nC),       "",  32, 0, 3.2);
     hEffHtPlus[nC]                    = CreateH1F(Form("hEffHtPlus%.1i", nC),                     "",  100, 0, 10);
     hPtWWHtPlus[nC]                   = CreateH1F(Form("hPtWWHtPlus%.1i", nC),                    "", 1000, 0, 1000);
+    hMcWWLevelHtPlus[nC]              = CreateH1F(Form("hMcWWLevelHtPlus%.1i", nC),               "", 1000, 0, 1000);
 
     hHt[nC]                     = CreateH1F(Form("hHt%.1i",               nC),       "", 3000, 0, 3000);
     hHtAfter[nC]                = CreateH1F(Form("hHtAfter%.1i",          nC),       "", 3000, 0, 3000);
@@ -191,8 +195,8 @@ void test::Initialise() {
   hPtDiLeptonTwoLeptonsLevel      = CreateH1F("hPtDiLeptonTwoLeptonsLevel",      "", 1000, 0, 1000);
   hMinvTwoLeptonsLevel            = CreateH1F("hMinvTwoLeptonsLevel",            "", 1000, 0, 1000);
   hMtTwoLeptonsLevel              = CreateH1F("hMtTwoLeptonsLevel",              "", 1000, 0, 1000);
-  hMt1TwoLeptonsLevel              = CreateH1F("hMt1TwoLeptonsLevel",              "", 1000, 0, 1000);
-  hMt2TwoLeptonsLevel              = CreateH1F("hMt2TwoLeptonsLevel",              "", 1000, 0, 1000);
+  hMt1TwoLeptonsLevel             = CreateH1F("hMt1TwoLeptonsLevel",             "", 1000, 0, 1000);
+  hMt2TwoLeptonsLevel             = CreateH1F("hMt2TwoLeptonsLevel",             "", 1000, 0, 1000);
   hNJets30TwoLeptonsLevel         = CreateH1F("hNJets30TwoLeptonsLevel",         "",  10, 0,  10);
   hpfMetTwoLeptonsLevel           = CreateH1F("hpfMetTwoLeptonsLevel",           "", 1000, 0, 1000);
   hppfMetTwoLeptonsLevel          = CreateH1F("hppfMetTwoLeptonsLevel",          "", 1000, 0, 1000);
@@ -202,8 +206,11 @@ void test::Initialise() {
   hDeltaRLeptonsTwoLeptonsLevel   = CreateH1F("hDeltaRLeptonsTwoLeptonsLevel",   "",  50, 0,   5);
   hDeltaPhiLeptonsTwoLeptonsLevel = CreateH1F("hDeltaPhiLeptonsTwoLeptonsLevel", "",  32, 0, 3.2);
   hDPhiPtllJetTwoLeptonsLevel     = CreateH1F("hDPhiPtllJetTwoLeptonsLevel",     "",  32, 0, 3.2);
-  hDPhillMetTwoLeptonsLevel       = CreateH1F("hDPhillMetTwoLeptonsLevel",     "",  32, 0, 3.2);
-  
+  hDPhillMetTwoLeptonsLevel       = CreateH1F("hDPhillMetTwoLeptonsLevel",       "",  32, 0, 3.2);
+  hMcTwoLeptonsLevel              = CreateH1F("hMcTwoLeptonsLevel",              "", 1000, 0, 1000);  
+  hPtWWTwoLeptonsLevel            = CreateH1F("hPtWWTwoLeptonsLevel",            "", 1000, 0, 1000);
+  hTrkMetTwoLeptonsLevel          = CreateH1F("hTrkMetTwoLeptonsLevel",          "", 1000, 0, 1000);
+
   h_TwoLeptons_TightFailEvents  = CreateH1F("h_TwoLeptons_TightFailEvents",  "", 10, 0 , 10);
   h_TwoLeptons_TightTightEvents = CreateH1F("h_TwoLeptons_TightTightEvents", "", 10, 0 , 10);
   h_TwoLeptons_TightLooseEvents = CreateH1F("h_TwoLeptons_TightLooseEvents", "", 10, 0 , 10);
@@ -244,6 +251,7 @@ void test::InsideLoop() {
   
   Float_t jetbin = njet;
   
+  //building mpmet
   Float_t dphimin = (min(dphilmet1,dphilmet2));
   Float_t fullpmet = 0;
   Float_t trkpmet = 0;
@@ -262,6 +270,7 @@ void test::InsideLoop() {
 
    Float_t metvar = (njet <= 1) ? mpmet : pfType1Met;
   
+   //building Ht
    Float_t Ht = std_vector_lepton_pt->at(0) + std_vector_lepton_pt->at(1) + pfType1Met;
    
    if(njet > 10) njet = 10;
@@ -357,8 +366,21 @@ void test::InsideLoop() {
    }
    
    //building Mt of the two Ws
-   Float_t Mt1 = sqrt(2*pt1*pfType1Met*(1 - cos(dphilmet1)));  
-   Float_t Mt2 = sqrt(2*pt2*pfType1Met*(1 - cos(dphilmet2)));  
+   Float_t Mt1 = 0;
+   Float_t Mt2 = 0;
+
+   if( pfType1Met > 0){
+     if( pt1 > 0 )
+       Mt1 = sqrt(2*pt1*pfType1Met*(1 - cos(dphilmet1)));  
+     if( pt2 > 0 )
+       Mt2 = sqrt(2*pt2*pfType1Met*(1 - cos(dphilmet2)));  
+   }
+
+   //building Mc
+   Float_t Mc = 0;
+
+   if (ptll > 0 && mll > 0 && pfType1Met > 0)
+     Mc = sqrt( pow(sqrt(ptll*ptll + mll*mll) + pfType1Met,2) - pow(ptll + pfType1Met,2) );
 
    // The selection begins here
    //--------------------------------------------------------------------------
@@ -405,8 +427,11 @@ void test::InsideLoop() {
 		  hDeltaPhiLeptonsTwoLeptonsLevel->Fill(dphill,    totalW);
 		  hDPhiPtllJetTwoLeptonsLevel    ->Fill(dphilljet, totalW);
 		  hDPhillMetTwoLeptonsLevel      ->Fill(dphillmet, totalW);		  
-
-		  h_TwoLeptons_TightFailEvents ->Fill(1, totalW); 
+		  hMcTwoLeptonsLevel             ->Fill(Mc,        totalW);		  
+		  hPtWWTwoLeptonsLevel           ->Fill(ptWW,      totalW);		  
+		  hTrkMetTwoLeptonsLevel         ->Fill(trkMet,    totalW);
+		  h_TwoLeptons_TightFailEvents   ->Fill(1,         totalW); 
+		  hHt[3]                         ->Fill(Ht,        totalW);			
 		  
 		  if (nextra == 0) {
 		    
@@ -464,7 +489,6 @@ void test::InsideLoop() {
 				  }
 				}
 			  
-			  hHt[3]->Fill(Ht,totalW);			
 			  hPtWWNoBtagging[3]->Fill(ptWW,totalW);	    
 			  /*
 			  hWTopTagging->Fill(1, totalW);
@@ -473,8 +497,8 @@ void test::InsideLoop() {
 			  hWSoftMuVeto->Fill(1, totalW);
 			  hWeffSoftMuVeto->Fill(1, efficiencyW);
 			  */
+			  /*
 			  hHtAfter[3]->Fill(Ht,totalW);				    
-			  
 			  hPtLepton1WWLevelNoHt[3]      ->Fill(pt1,       totalW);
 			  hPtLepton2WWLevelNoHt[3]      ->Fill(pt2,       totalW);
 			  hPtDiLeptonWWLevelNoHt[3]     ->Fill(ptll,      totalW);
@@ -492,7 +516,9 @@ void test::InsideLoop() {
 			  hWnJetsBveto                  ->Fill(njet,      totalW);
 			  hWeffnJetsBveto               ->Fill(njet, efficiencyW);
 			  hEffNoHt[3]                   ->Fill(1,    efficiencyW);
-			  
+			  hMcWWLevelNoHt[3]             ->Fill(Mc,        totalW);		  
+			  hPtWWNoHt[3]                  ->Fill(ptWW,      totalW);		  
+			  */
 			  //bveto Ht 
 			  if(Ht < 250){
 			    
@@ -514,8 +540,10 @@ void test::InsideLoop() {
 			    hWeffnJetsBvetoAfterHt    ->Fill(njet, efficiencyW);					
 			    hEff[3]                   ->Fill(1,    efficiencyW);					
 			    hPtWW[3]                  ->Fill(ptWW,      totalW);
+			    hMcWWLevel[3]             ->Fill(Mc,        totalW);		  
+			    hTrkMetWWLevel[3]         ->Fill(trkMet,    totalW);
 			  }
-			  
+			  /*
 			  //bveto Ht 
 			  if(Ht > 250){
 			    
@@ -535,8 +563,9 @@ void test::InsideLoop() {
 			    hDPhiPtllJetWWLevelHtPlus[3]    ->Fill(dphilljet, totalW);
 			    hEffHtPlus[3]                   ->Fill(1,    efficiencyW);					
 			    hPtWWHtPlus[3]                  ->Fill(ptWW,      totalW);
+			    hMcWWLevelHtPlus[3]             ->Fill(Mc,        totalW);		  
 			  }
-			  
+			  *//*
 			  for (Int_t jetNumber = 0; jetNumber < 3 ; ++jetNumber){
 			    if (jetbin >= 3) jetbin = 2;
 			    if(jetNumber == jetbin){
@@ -558,6 +587,7 @@ void test::InsideLoop() {
 			      hDPhiPtllJetWWLevelNoHt[jetNumber]    ->Fill(dphilljet, totalW);
 			      hEffNoHt[jetNumber]                   ->Fill(1,    efficiencyW);
 			      hPtWWNoHt[jetNumber]                  ->Fill(ptWW,      totalW);			      
+			      hMcWWLevelNoHt[jetNumber]             ->Fill(Mc,        totalW);		  
 
 			      //bveto Ht  
 			      if(Ht < 250){
@@ -578,6 +608,7 @@ void test::InsideLoop() {
 				hDPhiPtllJetWWLevel[jetNumber]    ->Fill(dphilljet, totalW);
 				hEff[jetNumber]                   ->Fill(1,    efficiencyW);
 				hPtWW[jetNumber]                  ->Fill(ptWW,      totalW);
+				hMcWWLevel[jetNumber]             ->Fill(Mc,        totalW);		  
 			      }
 			      
 			      //bveto Ht  
@@ -599,9 +630,11 @@ void test::InsideLoop() {
 				hDPhiPtllJetWWLevelHtPlus[jetNumber]    ->Fill(dphilljet, totalW);
 				hEffHtPlus[jetNumber]                   ->Fill(1,    efficiencyW);
 				hPtWWHtPlus[jetNumber]                  ->Fill(ptWW,      totalW);
+				hMcWWLevelHtPlus[jetNumber]             ->Fill(ptWW,      totalW);		  
 			      }
 			    }  					
 			  }
+			    */
 			  h_WWLevel_TightFailEvents ->Fill(1, totalW); 
 			      }
 			      }
@@ -715,6 +748,8 @@ void test::SetDataMembersAtTermination() {
   hBackgroundEvents[qq]       = ((TH1F*) FindOutput("hBackgroundEvents%.1i",qq));
   hEff[qq]                    = ((TH1F*) FindOutput("hEff%.1i",qq));
   hPtWW[qq]                   = ((TH1F*) FindOutput("hPtWW%.1i",qq));
+  hMcWWLevel[qq]              = ((TH1F*) FindOutput("hMcWWLevel%.1i",qq));
+  hTrkMetWWLevel[qq]          = ((TH1F*) FindOutput("hTrkMetWWLevel%.1i",qq));
 
   hPtLepton1WWLevelNoHt[qq]       = ((TH1F*) FindOutput("hPtLepton1WWLevelNoHt%.1i",qq));
   hPtLepton2WWLevelNoHt[qq]       = ((TH1F*) FindOutput("hPtLepton2WWLevelNoHt%.1i",qq));
@@ -734,6 +769,7 @@ void test::SetDataMembersAtTermination() {
   hBackgroundEventsNoHt[qq]       = ((TH1F*) FindOutput("hBackgroundEventsNoHt%.1i",qq));
   hEffNoHt[qq]                    = ((TH1F*) FindOutput("hEffNoHt%.1i",qq));
   hPtWWNoHt[qq]                   = ((TH1F*) FindOutput("hPtWWNoHt%.1i",qq));
+  hMcWWLevelNoHt[qq]              = ((TH1F*) FindOutput("hMcWWLevelNoHt%.1i",qq));
 
   hPtLepton1WWLevelHtPlus[qq]       = ((TH1F*) FindOutput("hPtLepton1WWLevelHtPlus%.1i",qq));
   hPtLepton2WWLevelHtPlus[qq]       = ((TH1F*) FindOutput("hPtLepton2WWLevelHtPlus%.1i",qq));
@@ -753,6 +789,7 @@ void test::SetDataMembersAtTermination() {
   hBackgroundEventsHtPlus[qq]       = ((TH1F*) FindOutput("hBackgroundEventsHtPlus%.1i",qq));
   hEffHtPlus[qq]                    = ((TH1F*) FindOutput("hEffHtPlus%.1i",qq));
   hPtWWHtPlus[qq]                   = ((TH1F*) FindOutput("hPtWWHtPlus%.1i",qq));
+  hMcWWLevelHtPlus[qq]              = ((TH1F*) FindOutput("hMcWWLevelHtPlus%.1i",qq));
 
   hHt[qq]                     = ((TH1F*) FindOutput("hHt%.1i",qq));
   hHtAfter[qq]                = ((TH1F*) FindOutput("hHtAfter%.1i",qq));
@@ -783,6 +820,8 @@ void test::SetDataMembersAtTermination() {
   hDeltaPhiLeptonsTwoLeptonsLevel = ((TH1F*) FindOutput("hDeltaPhiLeptonsTwoLeptonsLevel"));
   hDPhiPtllJetTwoLeptonsLevel     = ((TH1F*) FindOutput("hDPhiPtllJetTwoLeptonsLevel"));
   hDPhillMetTwoLeptonsLevel       = ((TH1F*) FindOutput("hDPhillMetTwoLeptonsLevel"));
+  hMcTwoLeptonsLevel              = ((TH1F*) FindOutput("hMcTwoLeptonsLevel"));
+  hTrkMetTwoLeptonsLevel          = ((TH1F*) FindOutput("hTrkMetTwoLeptonsLevel"));
 
   h_TwoLeptons_TightFailEvents  = ((TH1F*) FindOutput("h_TwoLeptons_TightFailEvents"));
   h_TwoLeptons_TightTightEvents = ((TH1F*) FindOutput("h_TwoLeptons_TightTightEvents"));
