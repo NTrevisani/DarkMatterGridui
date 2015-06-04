@@ -92,6 +92,10 @@ void test::Initialise() {
   hWeffmth = CreateH1F("hWeffmth",      "", 10, 0, 10);
   hWdphill = CreateH1F("hWdphill",      "", 10, 0, 10);
   hWeffdphill = CreateH1F("hWeffdphill",      "", 10, 0, 10);
+  hWtrkMet = CreateH1F("hWtrkMet",      "", 10, 0, 10);
+  hWefftrkMet = CreateH1F("hWefftrkMet",      "", 10, 0, 10);
+  hWdrll = CreateH1F("hWdrll",      "", 10, 0, 10);
+  hWeffdrll = CreateH1F("hWeffdrll",      "", 10, 0, 10);
 
   hWDeltaPhiJet = CreateH1F("hWDeltaPhiJet", "", 10, 0, 10);
   hWSoftMuVeto  = CreateH1F("hWSoftMuVeto",  "", 10, 0, 10);
@@ -438,40 +442,40 @@ void test::InsideLoop() {
 		    hWExtraLepton->Fill(1, totalW);
 		    hWeffExtraLepton->Fill(1, efficiencyW);
 		    
-		    if (pfType1Met > 20 ) { // removed for differential xsec
+		    /*if (pfType1Met > 20 )*/ { // removed for differential xsec
 		      
 		      hWMetCut->Fill(1, totalW);
 		      hWeffMetCut->Fill(1, efficiencyW);
 		      
-		      if (mll > 12 && mll < 80) {
+		      /*if (mll > 12 && mll < 80)*/ {
 			
 			hWLowMinv->Fill(1, totalW);
 			hWeffLowMinv->Fill(1, efficiencyW);
 
-			if (mpmet > 80){
+			if (trkMet > 140){
 
-			  hWpMetCut->Fill(1, totalW);
-			  hWeffpMetCut->Fill(1, efficiencyW);
+			  hWtrkMet->Fill(1, totalW);
+			  hWefftrkMet->Fill(1, efficiencyW);
 		      
 			  if (dphiv || channel == 2 || channel == 3) {
 			      
 			  hWDeltaPhiJet->Fill(1, totalW);
 			  hWeffDeltaPhiJet->Fill(1, efficiencyW);
 			  
-			  if ( ptll > 70 /*&& (!sameflav || ptll>45)*/ ) {
+			  /*if ( ptll > 70 && (!sameflav || ptll>45) )*/ {
 			    
 			    hWPtll->Fill(1, totalW);			    
 			    hWeffPtll->Fill(1, efficiencyW);			    
 			    
-			    if ( mth > 150 ){
+			    if ( Mc < 60 ){
 
 			      hWmth->Fill(1,totalW);
 			      hWeffmth->Fill(1,efficiencyW);
 			      
-			      if ( dphill < 3.14159265 / 2.){
+			      if ( drll < 0.7){
 
-				hWdphill->Fill(1,totalW);
-				hWeffdphill->Fill(1,efficiencyW);
+				hWdrll->Fill(1,totalW);
+				hWeffdrll->Fill(1,efficiencyW);
 				
 				hWnJets->Fill(njet, totalW);
 				hWeffnJets->Fill(njet, efficiencyW);
@@ -520,7 +524,7 @@ void test::InsideLoop() {
 			  hPtWWNoHt[3]                  ->Fill(ptWW,      totalW);		  
 			  */
 			  //bveto Ht 
-			  if(Ht < 250){
+			  /*if(Ht < 250)*/{
 			    
 			    hPtLepton1WWLevel[3]      ->Fill(pt1,       totalW);
 			    hPtLepton2WWLevel[3]      ->Fill(pt2,       totalW);
@@ -724,8 +728,10 @@ void test::SetDataMembersAtTermination() {
   hWeffExtraLepton = ((TH1F*) FindOutput("hWeffExtraLepton"));
   hWeffPtll        = ((TH1F*) FindOutput("hWeffPtll"));
   hWeffTopTagging  = ((TH1F*) FindOutput("hWeffTopTagging"));
-
-  
+  hWtrkMet         = ((TH1F*) FindOutput("hWtrkMet"));
+  hWefftrkMet      = ((TH1F*) FindOutput("hWefftrkMet"));
+  hWdrll           = ((TH1F*) FindOutput("hWdrll"));
+  hWeffdrll        = ((TH1F*) FindOutput("hWeffdrll"));
 
   // WW level histograms                                                                                                                                                           
   //----------------------------------------------------------------------------                                                                                                   

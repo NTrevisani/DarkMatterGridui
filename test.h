@@ -82,6 +82,10 @@ class test: public PAFAnalysis{
    TH1F* hWPtll;
    TH1F* hWTopTagging;
    TH1F* hWdphill;
+   TH1F* hWtrkMet;
+   TH1F* hWefftrkMet;
+   TH1F* hWdrll;
+   TH1F* hWeffdrll;
 
    TH1F* hWeffTrigger;
    TH1F* hWeffMetCut;

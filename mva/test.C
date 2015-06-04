@@ -285,7 +285,7 @@ void test::InsideLoop() {
 		       
 	     //	       if ( ptll > 70 ) {
 			 
-	     //		 if ( mth > 150 ){
+	     		 if ( mth > 0 && mth < 10000){
 			   
 	     //		   if ( dphill < 3.14159265 / 2.){
 			     
@@ -312,7 +312,7 @@ void test::InsideLoop() {
 			       htotalW          = totalW;
 			       //}
 			       // }
-			       //}  					
+			 }  					
 			       // }
 			       //}
 			       //}

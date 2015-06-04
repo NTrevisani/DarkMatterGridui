@@ -187,7 +187,7 @@ void drawPlots(TString variable,
 }
 
 //main function
-void macroHisto(TString printMode = "png", TString logMode = "on", TString normMode = "on"){
+void macroHisto(TString printMode = "png", TString logMode = "on", TString normMode = "off"){
   if (printMode == "C" || printMode == "png" || printMode == "pdf"){
     gSystem->Exec("mkdir distributions");
     gSystem->Exec("mkdir distributions/" + printMode);
