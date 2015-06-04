@@ -48,13 +48,13 @@ float FitBestCut(TGraph* grafico){
   return maxX;//curva->GetMaximum(mean/2,1.5*mean);
 }
 
-int ROC(TString variable = "hTrkMetTwoLeptonsLevel", 
-	TString sampleName = "Dark1", 
-	TString typeOfCut = ">",
-	Float_t max = 3000.,
-	TString printFormat = "pdf",
-	TString text = "Tracker MET [GeV]"
-	){
+int doTheROC(TString variable = "hTrkMetTwoLeptonsLevel", 
+	     TString sampleName = "Dark1", 
+	     TString typeOfCut = ">",
+	     Float_t max = 3000.,
+	     TString printFormat = "pdf",
+	     TString text = "Tracker MET [GeV]"
+	     ){
 
   gSystem->Exec("mkdir orthogonalCuts");
   gSystem->Exec("mkdir orthogonalCuts/" + sampleName);
@@ -323,5 +323,42 @@ int ROC(TString variable = "hTrkMetTwoLeptonsLevel",
   c3->Print("EfficienciesAll" + variable + "." + printFormat,printFormat);
   gSystem->Exec("mv EfficienciesAll" + variable + "." + printFormat +" orthogonalCuts/" + sampleName);
   
+  delete c1;
+  delete c2;
+  delete c3;
+  delete g;
+  delete g2;
+  delete g3;
+  delete g4;
+
   return 0;
+}
+
+void ROC(TString printMode = "png", TString sample = "Dark1"){
+
+  TString var = ""; 
+  TString cutType = "";
+  Int_t rightBound = 0;
+  TString tagText = "";
+
+  ifstream inFile("letsROC.txt");
+  std::string line;
+  
+  while (getline(inFile,line)){
+    
+    std::ofstream outFile("out.tmp",std::ios::out);
+    outFile<<line<<endl;
+    outFile.close();
+    std::ifstream input;
+    input.open("out.tmp",std::ios::in);
+    input >> var >> cutType >> rightBound >> tagText;
+    input.close();
+    cout<<" "<<" "<< var <<" "<< sample <<" "<< cutType <<" "<< rightBound <<" "<< tagText<<" "<<endl;
+    doTheROC(var, sample, cutType, rightBound, printMode, tagText);
+
+    //drawPlots(var, leftBound, rightBound, nbin, units, fDark, fDark100, fDark10, fDark1000, fDark500, fZH, fHWW, fWW, printMode,logMode,normMode);
+  } 
+    
+  inFile.close();
+  gSystem->Exec("rm out.tmp");
 }
