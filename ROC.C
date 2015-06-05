@@ -1,3 +1,5 @@
+//root -l -b -q 'ROC.C("png","Dark1")'
+
 #include "TROOT.h"
 #include "TCanvas.h"
 #include "THStack.h"
@@ -8,6 +10,10 @@
 #include "TFile.h"
 #include "TGraph.h"
 #include "math.h"
+#include "fstream.h"
+
+//file where I'll put the cut values for each variable
+std::ofstream cutFile("info.txt",std::ios::out);
 
 float GetXofTheMax(TGraph* grafico){
   float value = 0.;
@@ -43,15 +49,28 @@ float FitBestCut(TGraph* grafico){
       max = curva->Eval(mean/2 + passo*i);
       maxX = mean/2 + passo*i;
     }
-    //cout<<"max = "<<max<<", maxX = "<<maxX<<", i = "<<i<<", x = "<<mean/2 + passo*i<<", y = "<<curva->Eval(mean/2 + passo*i)<<endl;
   }
-  return maxX;//curva->GetMaximum(mean/2,1.5*mean);
+  return maxX;
+}
+
+float FitBestY(TGraph* grafico){
+  float mean = GetXofTheMax(grafico);
+  TF1* curva = new TF1("curva","pol5",0.,3000.);
+  grafico->Fit("curva","","",mean/2,1.5*mean);
+  float max = -9999;
+  float passo = mean/10000.;
+  for (int i = 0; i < 10000; ++i){
+    if(curva->Eval(mean/2 + passo*i) > max){
+      max = curva->Eval(mean/2 + passo*i);
+    }
+  }
+  return max;
 }
 
 int doTheROC(TString variable = "hTrkMetTwoLeptonsLevel", 
 	     TString sampleName = "Dark1", 
 	     TString typeOfCut = ">",
-	     Float_t max = 3000.,
+	     Float_t max = 3000,
 	     TString printFormat = "pdf",
 	     TString text = "Tracker MET [GeV]"
 	     ){
@@ -232,7 +251,10 @@ int doTheROC(TString variable = "hTrkMetTwoLeptonsLevel",
 
   Float_t drawCut = FitBestCut(g2);
   cout<<"I'd like to cut here: "<<TMath::Nint(drawCut)<<endl;
-
+  Float_t significanceCut = FitBestY(g2);
+  cout<<"Doing so the Significance would be "<<significanceCut<<endl;
+  cutFile<<variable<<" "<<typeOfCut<<" "<<TMath::Nint(drawCut)<<" -> Significance  "<<significanceCut<<endl;
+  
   TLine *l = new TLine(drawCut,0.,drawCut,1.5*GetMax(g2));
   l->SetLineColor(kViolet);
   l->SetLineWidth(5);
@@ -338,14 +360,14 @@ void ROC(TString printMode = "png", TString sample = "Dark1"){
 
   TString var = ""; 
   TString cutType = "";
-  Int_t rightBound = 0;
+  Float_t rightBound = 0;
   TString tagText = "";
 
+  //input file
   ifstream inFile("letsROC.txt");
   std::string line;
   
   while (getline(inFile,line)){
-    
     std::ofstream outFile("out.tmp",std::ios::out);
     outFile<<line<<endl;
     outFile.close();
@@ -353,12 +375,12 @@ void ROC(TString printMode = "png", TString sample = "Dark1"){
     input.open("out.tmp",std::ios::in);
     input >> var >> cutType >> rightBound >> tagText;
     input.close();
-    cout<<" "<<" "<< var <<" "<< sample <<" "<< cutType <<" "<< rightBound <<" "<< tagText<<" "<<endl;
+    cout<< var <<" "<< sample <<" "<< cutType <<" "<< rightBound <<" "<<printMode<<" "<< tagText <<endl;
     doTheROC(var, sample, cutType, rightBound, printMode, tagText);
-
-    //drawPlots(var, leftBound, rightBound, nbin, units, fDark, fDark100, fDark10, fDark1000, fDark500, fZH, fHWW, fWW, printMode,logMode,normMode);
   } 
-    
+
   inFile.close();
+  cutFile.close();
   gSystem->Exec("rm out.tmp");
+  gSystem->Exec("mv info.txt orthogonalCuts/" + sample + "/");
 }
