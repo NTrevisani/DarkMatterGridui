@@ -32,7 +32,7 @@ void yields(TString nameF = "Dark1", TString scaleXS = "1"){
   //defining cut level names
   TString cutLevel[3];
   cutLevel[0] = "$m_T Higgs$ > 260~GeV"; 
-  cutLevel[1] = "\\Delta R_{ll} < 0.5";  
+  cutLevel[1] = "$\\Delta R_{ll}$ < 0.5";  
   cutLevel[2] = "M$_T$(W$_2$) > 145~GeV";
 
   //background files  
@@ -117,6 +117,7 @@ void yields(TString nameF = "Dark1", TString scaleXS = "1"){
   */
   //end of the table
   inFile<<"\\bottomrule"<<endl;
+  inFile<<"Percentage"<<" & "<<DarkNoCuts<<" & "<<ZHNoCuts<<" & "<<HWWNoCuts<<" & "<<WWNoCuts<<"\\"<<endl;
   inFile<<"\\end{tabular}"<<endl;
 
   inFile.close();

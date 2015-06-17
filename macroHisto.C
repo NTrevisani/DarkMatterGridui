@@ -1,5 +1,6 @@
 //compares variables value from latinos H->WW->lvlv with HXX->XXWW->XXlvlv and HZ->WWvv->lvlvvv
-//run typing:  root -l -b -q 'macroHisto.C("pdf")'
+//                                               log   norm XSscale
+//run typing:  root -l -b -q 'macroHisto.C("png","on","off","1")'
 
 #include "TFile.h"
 #include "TH1.h"
@@ -15,6 +16,7 @@
 #include "TStyle.h"
 #include <iostream.h>
 #include "latinoTree.h"
+#include "THStack.h"
 
 TString latinoVar = "";
 TString darkVar = "";
@@ -24,22 +26,22 @@ Float_t range = 1000.;
 void drawPlots(TString variable,
 	       Float_t left, 
 	       Float_t right, 
-	       Int_t nrebin,
+	       Int_t   nrebin,
 	       TString units = "",
-	       TFile *fDark_,
-	       TFile *fDark100_,
-	       TFile *fDark10_,
-	       TFile *fDark1000_,	      
-	       TFile *fDark500_,
-	       TFile *fZH_,
-	       TFile *fHWW_,
-	       TFile *fWW_,
+	       TFile  *fDark_,
+	       TFile  *fDark100_,
+	       TFile  *fDark10_,
+	       TFile  *fDark1000_,	      
+	       TFile  *fDark500_,
+	       TFile  *fZH_,
+	       TFile  *fHWW_,
+	       TFile  *fWW_,
 	       TString format,
 	       TString drawLog,
 	       TString norm
 	       ){
 
-  TH1F *hDark     = (TH1F*)fDark_->Get(variable);
+  TH1F *hDark1    = (TH1F*)fDark_->Get(variable);
   TH1F *hDark100  = (TH1F*)fDark100_->Get(variable);
   TH1F *hDark10   = (TH1F*)fDark10_->Get(variable);
   TH1F *hDark500  = (TH1F*)fDark500_->Get(variable);
@@ -48,7 +50,7 @@ void drawPlots(TString variable,
   TH1F *hHWW      = (TH1F*)fHWW_->Get(variable);
   TH1F *hWW       = (TH1F*)fWW_->Get(variable);
   
-  hDark     -> Rebin(nrebin);
+  hDark1    -> Rebin(nrebin);
   hDark10   -> Rebin(nrebin);
   hDark100  -> Rebin(nrebin);
   hDark500  -> Rebin(nrebin);
@@ -57,7 +59,7 @@ void drawPlots(TString variable,
   hHWW      -> Rebin(nrebin);
   hWW       -> Rebin(nrebin);
 
-  hDark     -> GetXaxis() -> SetRangeUser(left,right);
+  hDark1    -> GetXaxis() -> SetRangeUser(left,right);
   hDark10   -> GetXaxis() -> SetRangeUser(left,right);
   hDark100  -> GetXaxis() -> SetRangeUser(left,right);
   hDark500  -> GetXaxis() -> SetRangeUser(left,right);
@@ -68,7 +70,7 @@ void drawPlots(TString variable,
 
   //histograms normalization
   if (norm == "on"){
-    hDark     ->Scale(1./hDark->Integral());
+    hDark1    ->Scale(1./hDark1->Integral());
     hDark10   ->Scale(1./hDark10->Integral());
     hDark100  ->Scale(1./hDark100->Integral());
     hDark500  ->Scale(1./hDark500->Integral());
@@ -82,14 +84,14 @@ void drawPlots(TString variable,
   c1->cd();
   
   TPad* pad1 = new TPad("pad1", "pad1", 0., 0., 1.0, 1.0);
-  pad1->SetLeftMargin(0.14);
+  pad1->SetLeftMargin(0.16);
   pad1->SetBottomMargin(0.18);
   pad1->Draw();
   pad1->cd();
 
-  Float_t rangeY = max(hDark->GetMaximum(),hZH->GetMaximum());
+  Float_t rangeY = max(hDark1->GetMaximum(),hZH->GetMaximum());
   rangeY = max(rangeY,hHWW->GetMaximum());
-  rangeY = max(rangeY,hDark->GetMaximum());
+  rangeY = max(rangeY,hDark1->GetMaximum());
   rangeY = max(rangeY,hDark10->GetMaximum());
   rangeY = max(rangeY,hDark100->GetMaximum());
   rangeY = max(rangeY,hDark500->GetMaximum());
@@ -97,19 +99,19 @@ void drawPlots(TString variable,
   rangeY = max(rangeY,hWW->GetMaximum());
   hZH->SetTitleSize(4.);
 
-  Float_t rangeMin = 0.00000001;
+  Float_t rangeMin = 0.0001;
 
   if (drawLog == "on"){
     hZH->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
-    hDark->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
-    hDark100->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
+    hDark1->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
+    //hDark100->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
     pad1->SetLogy();
   }  
   else if (drawLog == "off"){
     rangeY = 1.5*rangeY;
     hZH->GetYaxis()->SetRangeUser(0.,rangeY);
-    hDark->GetYaxis()->SetRangeUser(0.,rangeY);
-    hDark100->GetYaxis()->SetRangeUser(0.,rangeY);
+    hDark1->GetYaxis()->SetRangeUser(0.,rangeY);
+    //hDark100->GetYaxis()->SetRangeUser(0.,rangeY);
   }
 
   if(units != "[]")
@@ -122,9 +124,12 @@ void drawPlots(TString variable,
   hZH->GetXaxis()->SetLabelSize(0.05);
   hZH->GetYaxis()->SetTitleSize(0.05);
   hZH->GetYaxis()->SetLabelSize(0.05);  
+  hZH->GetXaxis()->SetNdivisions(408);
+  hZH->GetYaxis()->SetTitleOffset(1.6);
+  hZH->GetYaxis()->SetTitle(Form("entries / %.1f", hZH->GetBinWidth(0)));
 
   hZH->SetLineWidth(3);
-  hDark->SetLineWidth(3);
+  hDark1->SetLineWidth(3);
   hDark100->SetLineWidth(3);
   hDark10->SetLineWidth(3);
   hDark1000->SetLineWidth(3);
@@ -133,7 +138,7 @@ void drawPlots(TString variable,
   hWW->SetLineWidth(3);
 
   hZH->SetStats(0);
-  hDark->SetStats(0);
+  hDark1->SetStats(0);
   hDark100->SetStats(0);
   hDark10->SetStats(0);
   hDark1000->SetStats(0);
@@ -141,7 +146,7 @@ void drawPlots(TString variable,
   hHWW->SetStats(0);
   hWW->SetStats(0);
 
-  hDark->SetLineColor(kBlue);
+  hDark1->SetLineColor(kBlue);
   hDark100->SetLineColor(kBlack);
   hDark10->SetLineColor(kYellow);
   hDark1000->SetLineColor(46);
@@ -153,19 +158,19 @@ void drawPlots(TString variable,
   hZH->Draw();
   hDark1000->Draw("same");
   hDark500->Draw("same");
-  hDark100->Draw("same");
-  hDark10->Draw("same");
-  hDark->Draw("same");
+  //hDark100->Draw("same");
+  //hDark10->Draw("same");
+  hDark1->Draw("same");
   hHWW->Draw("same");
   hWW->Draw("same");
 
   TLegend* leg = new TLegend(0.20,0.70,0.70,0.89);
   leg->AddEntry(hZH,"ZH #rightarrow #nu#nuWW","l");
-  leg->AddEntry(hDark,"HXX #rightarrow WWXX, m_{X} = 1GeV","l");
-  leg->AddEntry(hDark100,"HXX #rightarrow WWXX, m_{X} = 100GeV","l");
-  leg->AddEntry(hDark10,"HXX #rightarrow WWXX, m_{X} = 10GeV","l");
-  leg->AddEntry(hDark1000,"HXX #rightarrow WWXX, m_{X} = 1000GeV","l");
+  leg->AddEntry(hDark1,"HXX #rightarrow WWXX, m_{X} = 1GeV","l");
+  //leg->AddEntry(hDark10,"HXX #rightarrow WWXX, m_{X} = 10GeV","l");
+  //leg->AddEntry(hDark100,"HXX #rightarrow WWXX, m_{X} = 100GeV","l");
   leg->AddEntry(hDark500,"HXX #rightarrow WWXX, m_{X} = 500GeV","l");
+  leg->AddEntry(hDark1000,"HXX #rightarrow WWXX, m_{X} = 1000GeV","l");
   leg->AddEntry(hHWW,"H #rightarrow WW","l");
   leg->AddEntry(hWW,"WW","l");
   leg->SetTextSize(0.03);
@@ -173,8 +178,88 @@ void drawPlots(TString variable,
   leg->SetLineColor(kWhite);
   leg->Draw();
   
-  c1->Print(variable+"."+format,format);
-  delete hDark;
+  c1->Print(variable + "." + format, format);
+
+  //building the tstack
+  hZH    -> SetFillColor(kRed);
+  hDark1 -> SetFillColor(kBlue);
+  hHWW   -> SetFillColor(kGreen+2);
+  hWW    -> SetFillColor(kGreen+4);
+
+  THStack* hstack = new THStack("","");
+
+  if (drawLog == "on"){
+    Float_t maxYaxis = hDark1 -> GetMaximum() + hZH -> GetMaximum() + hHWW -> GetMaximum() + hWW -> GetMaximum();
+    //maxYaxis = maxYaxis**2;//pow(10.,maxYaxis/rangeMin);
+    //hstack -> GetYaxis() -> SetRangeUser(rangeMin,maxYaxis);
+    hstack->SetMinimum(rangeMin);
+    hstack->SetMaximum(maxYaxis*pow(10.,-4));
+  }
+
+  else if (drawLog == "off"){
+    Float_t maxYaxis = hDark1 -> GetMaximum() + hZH -> GetMaximum() + hHWW -> GetMaximum() + hWW -> GetMaximum();
+    //hstack -> GetYaxis() -> SetRangeUser(0.,maxYaxis);
+    hstack -> SetMinimum(0.);
+    hstack -> SetMaximum(maxYaxis/2.8);
+  }
+
+  hstack -> Add(hDark1);
+  //hstack -> Add(hDark10);
+  //hstack -> Add(hDark100);
+  //hstack -> Add(hDark500);
+  //hstack -> Add(hDark1000);
+  hstack -> Add(hZH);      
+  hstack -> Add(hHWW);     
+  hstack -> Add(hWW);      
+
+  TCanvas *c2 = new TCanvas("stack","stack",600,800);
+  c2->cd();
+  
+  TPad* pad2 = new TPad("pad2", "pad2", 0., 0., 1.0, 1.0);
+  pad2->SetLeftMargin(0.16);
+  pad2->SetBottomMargin(0.18);
+  pad2->Draw();
+  pad2->cd();
+  if (drawLog == "on")
+    pad2->SetLogy();
+  hstack->Draw("hist");
+
+  hstack -> GetXaxis() -> SetRangeUser(left,right);
+  hstack -> GetYaxis() -> SetTitle(Form("entries / %.1f", hZH->GetBinWidth(0)));
+  hstack -> GetYaxis() -> SetTitleOffset(1.6);
+
+  hstack -> GetXaxis() -> SetTitleSize(0.07);
+  hstack -> GetXaxis() -> SetTitleOffset(0.9);
+  hstack -> GetXaxis() -> SetLabelSize(0.05);
+  hstack -> GetYaxis() -> SetTitleSize(0.05);
+  hstack -> GetYaxis() -> SetLabelSize(0.05);  
+  hstack -> GetXaxis() -> SetTitle(units);
+  hstack -> GetXaxis() -> SetNdivisions(408);
+
+  hZH    -> SetFillStyle(1001);
+  hDark1 -> SetFillStyle(1001);
+  hWW    -> SetFillStyle(1001);
+  hHWW   -> SetFillStyle(1001);
+
+  hstack->Draw("hist");
+
+  TLegend* leg2 = new TLegend(0.20,0.75,0.70,0.89);
+  leg2->AddEntry(hWW,"WW","f");
+  leg2->AddEntry(hHWW,"H #rightarrow WW","f");
+  leg2->AddEntry(hZH,"ZH #rightarrow #nu#nuWW","f");
+  leg2->AddEntry(hDark1,"HXX #rightarrow WWXX, m_{X} = 1GeV","f");
+  //leg2->AddEntry(hDark100,"HXX #rightarrow WWXX, m_{X} = 100GeV","f");
+  //leg2->AddEntry(hDark10,"HXX #rightarrow WWXX, m_{X} = 10GeV","f");
+  //leg2->AddEntry(hDark1000,"HXX #rightarrow WWXX, m_{X} = 1000GeV","f");
+  //leg2->AddEntry(hDark500,"HXX #rightarrow WWXX, m_{X} = 500GeV","f");
+  leg2->SetTextSize(0.03);
+  leg2->SetFillColor(kWhite);
+  leg2->SetLineColor(kWhite);
+  leg2->Draw();
+
+  c2 -> Print(variable + "stack." + format, format);
+
+  delete hDark1;
   delete hDark100;
   delete hDark10;
   delete hDark500;
@@ -183,14 +268,37 @@ void drawPlots(TString variable,
   delete hHWW;
   delete hWW;
   delete c1;
-  gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format);
+  delete c2;
+  delete hstack;
+
+  if (drawLog == "off" && norm == "off"){
+    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format);
+    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format);
+  }
+  else if(drawLog == "on" && norm == "off"){
+    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format + "Log");
+    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format + "Log");
+  }
+  else if(drawLog == "off" && norm == "on"){
+    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format + "Norm");
+    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format + "Norm");
+  }
+  else if(drawLog == "on" && norm == "on"){
+    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format + "NormLog");
+    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format + "NormLog");
+  }
+
 }
 
 //main function
-void macroHisto(TString printMode = "png", TString logMode = "on", TString normMode = "off"){
+void macroHisto(TString printMode = "png", TString logMode = "on", TString normMode = "off", TString XS = "1"){
   if (printMode == "C" || printMode == "png" || printMode == "pdf"){
     gSystem->Exec("mkdir distributions");
     gSystem->Exec("mkdir distributions/" + printMode);
+    gSystem->Exec("mkdir distributions/" + printMode + "Norm");
+    gSystem->Exec("mkdir distributions/" + printMode + "Log");
+    gSystem->Exec("mkdir distributions/" + printMode + "NormLog");
+
     cout<<"siiiiiiiiiiii"<<endl;
   }
   else{
@@ -209,14 +317,14 @@ void macroHisto(TString printMode = "png", TString logMode = "on", TString normM
   }
 
   gSystem->Exec("mkdir distributions/" + printMode);
-  TFile* fDark     = new TFile("rootFiles/AllJet/OF/Dark1.root");
-  TFile* fZH       = new TFile("rootFiles/AllJet/OF/ZH.root");
-  TFile* fHWW      = new TFile("rootFiles/AllJet/OF/HWW.root");
-  TFile* fDark100  = new TFile("rootFiles/AllJet/OF/Dark100.root");
-  TFile* fDark10   = new TFile("rootFiles/AllJet/OF/Dark10.root");
-  TFile* fDark1000 = new TFile("rootFiles/AllJet/OF/Dark1000.root");
-  TFile* fDark500  = new TFile("rootFiles/AllJet/OF/Dark500.root");
-  TFile* fWW       = new TFile("rootFiles/AllJet/OF/WW.root");
+  TFile* fDark     = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark1.root");
+  TFile* fZH       = new TFile("rootFiles/AllJet/OF/" + XS + "/ZH.root");
+  TFile* fHWW      = new TFile("rootFiles/AllJet/OF/" + XS + "/HWW.root");
+  TFile* fDark100  = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark100.root");
+  TFile* fDark10   = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark10.root");
+  TFile* fDark1000 = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark1000.root");
+  TFile* fDark500  = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark500.root");
+  TFile* fWW       = new TFile("rootFiles/AllJet/OF/" + XS + "/WW.root");
 
   Int_t cont = 0;
   TString var;

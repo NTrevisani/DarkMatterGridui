@@ -7,17 +7,19 @@ if [ $# -lt 1 ]; then
 fi
 
 
-LUMINOSITY=19.365
+LUMINOSITY=100
 
 TEST="test"
 
-NJETS=$1
+NJETS=0
 
 CHANNELS="OF"
 
 PROOFMODE="Cluster"
-#"All SF OF EE MuE EMu MuMu "
 
+MULTIPLICATEXS=$1
+
+#"All SF OF EE MuE EMu MuMu "
 
 SAMPLES="
 Dark1              \
@@ -26,14 +28,16 @@ Dark100            \
 Dark500            \
 Dark1000           \
 ZH                 \
-QCD                \ 
-Top                \
-WJets              \
-TTJets             \
 HWW                \
 WW                 \
-VBF                \
 "
+
+#QCD                \ 
+#Top                \
+#WJets              \
+#TTJets             \
+#VBF                \
+#"
 
 #rm -rf rootfiles/${NJETS}jet
 
@@ -46,8 +50,9 @@ for CHANNEL in $CHANNELS; do
 	
 	mkdir rootFiles/AllJet/
 	mkdir rootFiles/AllJet/${CHANNEL}	
-	root -l -b -q "RunPROOF_test.C($LUMINOSITY,\"$TEST\",\"$SAMPLE\","$NJETS",\"$CHANNEL\",\"$PROOFMODE\")"
-	mv ${SAMPLE}.root rootFiles/AllJet/${CHANNEL}
+	mkdir rootFiles/AllJet/${CHANNEL}/${MULTIPLICATEXS}	
+	root -l -b -q "RunPROOF_test.C($LUMINOSITY,\"$TEST\",\"$SAMPLE\","$NJETS",\"$CHANNEL\",\"$PROOFMODE\","$MULTIPLICATEXS")"
+	mv ${SAMPLE}.root rootFiles/AllJet/${CHANNEL}/${MULTIPLICATEXS}
   
     done
 

@@ -86,10 +86,11 @@ void test::Initialise() {
     hMt2WWLevel[nC]             = CreateH1F(Form("hMt2WWLevel%.1i", nC),             "", 1000, 0, 1000);
     hpfMetWWLevel[nC]           = CreateH1F(Form("hpfMetWWLevel%.1i", nC),           "", 1000, 0, 1000);
     hpminMetWWLevel[nC]         = CreateH1F(Form("hpminMetWWLevel%.1i", nC),         "", 1000, 0, 1000);
-    hDeltaRLeptonsWWLevel[nC]   = CreateH1F(Form("hDeltaRLeptonsWWLevel%.1i", nC),   "",  50, 0,   5);
-    hDeltaPhiLeptonsWWLevel[nC] = CreateH1F(Form("hDeltaPhiLeptonsWWLevel%.1i", nC), "",  32, 0, 3.2);
-    hDPhiPtllJetWWLevel[nC]     = CreateH1F(Form("hDPhiPtllJetWWLevel%.1i", nC),     "",  32, 0, 3.2);
-    hPtWWWWLevel[nC]            = CreateH1F(Form("hPtWWWWLevel%.1i", nC),                   "", 1000, 0, 1000);
+    hDeltaRLeptonsWWLevel[nC]   = CreateH1F(Form("hDeltaRLeptonsWWLevel%.1i", nC),   "",   50, 0,    5);
+    hDeltaPhiLeptonsWWLevel[nC] = CreateH1F(Form("hDeltaPhiLeptonsWWLevel%.1i", nC), "",   32, 0,  3.2);
+    hDPhiPtllJetWWLevel[nC]     = CreateH1F(Form("hDPhiPtllJetWWLevel%.1i", nC),     "",   32, 0,  3.2);
+    hDPhillMetWWLevel[nC]       = CreateH1F(Form("hDPhillMetWWLevel%.1i", nC),       "",   32, 0,  3.2);
+    hPtWWWWLevel[nC]            = CreateH1F(Form("hPtWWWWLevel%.1i", nC),            "", 1000, 0, 1000);
     hMcWWLevel[nC]              = CreateH1F(Form("hMcWWLevel%.1i", nC),              "", 1000, 0, 1000);
     hTrkMetWWLevel[nC]          = CreateH1F(Form("hTrkMetWWLevel%.1i", nC),          "", 1000, 0, 1000);
     hHtWWLevel[nC]              = CreateH1F(Form("hHtWWLevel%.1i", nC),              "", 1000, 0, 1000);
@@ -145,12 +146,12 @@ void test::InsideLoop() {
   Float_t trkpmet = 0;
   
   if (dphimin < TMath::Pi() / 2)
-    fullpmet = pfType1Met * sin(dphimin);
+    fullpmet = fabs(pfType1Met * sin(dphimin));
   else 
     fullpmet = pfType1Met;
   
   if (dphimin < TMath::Pi() / 2)
-    trkpmet = trkMet * sin(dphimin);
+    trkpmet = fabs(trkMet * sin(dphimin));
   else
     trkpmet = trkMet;
   
@@ -271,6 +272,7 @@ void test::InsideLoop() {
 		    hDeltaRLeptonsWWLevel[0]  ->Fill(drll,      totalW);
 		    hDeltaPhiLeptonsWWLevel[0]->Fill(dphill,    totalW);
 		    hDPhiPtllJetWWLevel[0]    ->Fill(dphilljet, totalW);
+		    hDPhillMetWWLevel[0]      ->Fill(dphillmet, totalW);
 		    hPtWWWWLevel[0]           ->Fill(ptWW,      totalW);
 		    hMcWWLevel[0]             ->Fill(Mc,        totalW);		  
 		    hTrkMetWWLevel[0]         ->Fill(trkMet,    totalW);
@@ -290,6 +292,7 @@ void test::InsideLoop() {
 		      hDeltaRLeptonsWWLevel[1]  ->Fill(drll,      totalW);
 		      hDeltaPhiLeptonsWWLevel[1]->Fill(dphill,    totalW);
 		      hDPhiPtllJetWWLevel[1]    ->Fill(dphilljet, totalW);
+		      hDPhillMetWWLevel[1]      ->Fill(dphillmet, totalW);
 		      hPtWWWWLevel[1]           ->Fill(ptWW,      totalW);
 		      hMcWWLevel[1]             ->Fill(Mc,        totalW);		  
 		      hTrkMetWWLevel[1]         ->Fill(trkMet,    totalW);
@@ -309,6 +312,7 @@ void test::InsideLoop() {
 			hDeltaRLeptonsWWLevel[2]  ->Fill(drll,      totalW);
 			hDeltaPhiLeptonsWWLevel[2]->Fill(dphill,    totalW);
 			hDPhiPtllJetWWLevel[2]    ->Fill(dphilljet, totalW);
+			hDPhillMetWWLevel[2]      ->Fill(dphillmet, totalW);
 			hPtWWWWLevel[2]           ->Fill(ptWW,      totalW);
 			hMcWWLevel[2]             ->Fill(Mc,        totalW);		  
 			hTrkMetWWLevel[2]         ->Fill(trkMet,    totalW);
@@ -368,6 +372,7 @@ void test::SetDataMembersAtTermination() {
   hDeltaRLeptonsWWLevel[qq]   = ((TH1F*) FindOutput("hDeltaRLeptonsWWLevel%.1i",qq));
   hDeltaPhiLeptonsWWLevel[qq] = ((TH1F*) FindOutput("hDeltaPhiLeptonsWWLevel%.1i",qq));
   hDPhiPtllJetWWLevel[qq]     = ((TH1F*) FindOutput("hDPhiPtllJetWWLevel%.1i",qq));
+  hDPhillMetWWLevel[qq]       = ((TH1F*) FindOutput("hDPhillMetWWLevel%.1i",qq));
   hPtWWWWLevel[qq]            = ((TH1F*) FindOutput("hPtWWWWLevel%.1i",qq));
   hMcWWLevel[qq]              = ((TH1F*) FindOutput("hMcWWLevel%.1i",qq));
   hTrkMetWWLevel[qq]          = ((TH1F*) FindOutput("hTrkMetWWLevel%.1i",qq));

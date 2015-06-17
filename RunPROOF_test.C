@@ -22,7 +22,8 @@ void RunPROOF_test(double luminosity,
 		   TString  theSample,  
 		   Int_t JetChannel,
 		   TString FlavorChannel,
-		   TString proofMode_) ) 
+		   TString proofMode_,
+		   Int_t multiplicateXS) 
 {
  
   // This loads all the PROOF Analysis Framework utilities
@@ -233,7 +234,8 @@ void RunPROOF_test(double luminosity,
   gPAFOptions->inputParameters->SetNamedString("Signal", data);
   gPAFOptions->inputParameters->SetNamedDouble("XSection", xSection);
   gPAFOptions->inputParameters->SetNamedDouble("Luminosity", luminosity);
-  gPAFOptions->inputParameters->SetNamedInt("NEvents", nEventsInTheSample); // all
+  gPAFOptions->inputParameters->SetNamedInt("NEvents", nEventsInTheSample);
+  gPAFOptions->inputParameters->SetNamedInt("MultiplicateXS", multiplicateXS);
   gPAFOptions->inputParameters->SetNamedFloat("luminosityPU", 19468.3);  
   gPAFOptions->inputParameters->SetNamedInt("WhichRun", whichRun);
   gPAFOptions->inputParameters->SetNamedString("theSample", theSample.Data());
