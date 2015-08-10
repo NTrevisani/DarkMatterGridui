@@ -49,30 +49,46 @@ class test: public PAFAnalysis{
 
    TH1F* h_n_PV; 
 
+   TTree *mvaTree;
    TTree *tree;
 
-   // WW level histograms                                                         
-   //---------------------------------------------------------------------------- 
-   
-   TH1F* hPtLepton1WWLevel[4];
-   TH1F* hPtLepton2WWLevel[4];
-   TH1F* hPtDiLeptonWWLevel[4];
-   TH1F* hMinvWWLevel[4];
-   TH1F* hMtWWLevel[4];
-   TH1F* hMt1WWLevel[4];
-   TH1F* hMt2WWLevel[4];
-   TH1F* hpfMetWWLevel[4];
-   TH1F* hpminMetWWLevel[4];
-   TH1F* hDeltaRLeptonsWWLevel[4];
-   TH1F* hDeltaPhiLeptonsWWLevel[4];
-   TH1F* hDPhiPtllJetWWLevel[4];
-   TH1F* hDPhillMetWWLevel[4];
-   TH1F* hPtWWWWLevel[4];
-   TH1F* hMcWWLevel[4];
-   TH1F* hTrkMetWWLevel[4];
-   TH1F* hHtWWLevel[4];
+   Float_t Mt1;
+   Float_t Mt2;
+   Float_t Mc;
+   Float_t ptWW;
+   Float_t Ht;
+   Float_t mpmet;
+   Float_t dphijetjet;
+   Float_t detajetjet;
 
-   // TwoLeptons level histograms                                            
+   // Counting histograms 
+   //---------------------------------------------------------------------------- 
+
+   TH1F* hWExtraLepton;   
+   TH1F* hWeffExtraLepton;
+   TH1F* hWMetCut;
+   TH1F* hWeffMetCut;
+   TH1F* hWLowMinv;
+   TH1F* hWeffLowMinv;
+   TH1F* hWZVeto;
+   TH1F* hWeffZVeto;
+   TH1F* hWpMetCut;
+   TH1F* hWeffpMetCut;
+   TH1F* hWDeltaPhiJet;
+   TH1F* hWeffDeltaPhiJet;
+   TH1F* hWPtll;
+   TH1F* hWeffPtll;
+   TH1F* hWnJets;
+   TH1F* hWeffnJets;
+   TH1F* hWnBtaggedJets;
+   TH1F* hWeffnBtaggedJets;
+   TH1F* hWTopTagging;
+   TH1F* hWeffTopTagging;
+   TH1F* hWSoftMuVeto;
+   TH1F* hWeffSoftMuVeto;
+
+
+   // TwoLeptons level histograms 
    //---------------------------------------------------------------------------- 
    
    TH1F* hPtLepton1TwoLeptonsLevel;
@@ -92,6 +108,54 @@ class test: public PAFAnalysis{
    TH1F* hPtWWTwoLeptonsLevel;
    TH1F* hTrkMetTwoLeptonsLevel;
    TH1F* hHtTwoLeptonsLevel;
+   TH1F* hdphijetjetTwoLeptonsLevel;
+   TH1F* hdetajetjetTwoLeptonsLevel;
+
+   // WW level histograms                                            
+   //---------------------------------------------------------------------------- 
+   
+   TH1F* hPtLepton1WWLevel;
+   TH1F* hPtLepton2WWLevel ;
+   TH1F* hPtDiLeptonWWLevel;
+   TH1F* hMinvWWLevel;
+   TH1F* hMtWWLevel;
+   TH1F* hMt1WWLevel;
+   TH1F* hMt2WWLevel;
+   TH1F* hpfMetWWLevel;
+   TH1F* hpminMetWWLevel;
+   TH1F* hDeltaRLeptonsWWLevel;
+   TH1F* hDeltaPhiLeptonsWWLevel;
+   TH1F* hDPhiPtllJetWWLevel;
+   TH1F* hDPhillMetWWLevel;
+   TH1F* hMcWWLevel;
+   TH1F* hPtWWWWLevel;
+   TH1F* hTrkMetWWLevel;
+   TH1F* hHtWWLevel;
+   TH1F* hdphijetjetWWLevel;
+   TH1F* hdetajetjetWWLevel;
+
+   // monoH level histograms                                                         
+   //---------------------------------------------------------------------------- 
+   
+   TH1F* hPtLepton1monoHLevel[4];
+   TH1F* hPtLepton2monoHLevel[4];
+   TH1F* hPtDiLeptonmonoHLevel[4];
+   TH1F* hMinvmonoHLevel[4];
+   TH1F* hMtmonoHLevel[4];
+   TH1F* hMt1monoHLevel[4];
+   TH1F* hMt2monoHLevel[4];
+   TH1F* hpfMetmonoHLevel[4];
+   TH1F* hpminMetmonoHLevel[4];
+   TH1F* hDeltaRLeptonsmonoHLevel[4];
+   TH1F* hDeltaPhiLeptonsmonoHLevel[4];
+   TH1F* hDPhiPtllJetmonoHLevel[4];
+   TH1F* hDPhillMetmonoHLevel[4];
+   TH1F* hPtWWmonoHLevel[4];
+   TH1F* hMcmonoHLevel[4];
+   TH1F* hTrkMetmonoHLevel[4];
+   TH1F* hHtmonoHLevel[4];
+   TH1F* hdphijetjetmonoHLevel[4];
+   TH1F* hdetajetjetmonoHLevel[4];
 
  public:
  
@@ -111,7 +175,6 @@ class test: public PAFAnalysis{
    double XSection; // Process cross section
    bool IsDATA; // True if is Data, False in case MC
    int WhichRun; // 1 in case of RunI samples. 2 In case of RunII samples.
-   int MultiplicateXS;//multiplicate Dark Matter XS by this factor
    TString TheSample; //path to the input files
    TString flavorChannel; //selected decay channel 
    int jetChannel; //number of jets in the event

@@ -1,6 +1,4 @@
-//compares variables value from latinos H->WW->lvlv with HXX->XXWW->XXlvlv and HZ->WWvv->lvlvvv
-//                                               log   norm XSscale
-//run typing:  root -l -b -q 'macroHisto.C("png","on","off","1")'
+//run typing:  root -l -b -q 'macroHisto.C("png","logon","normoff")'
 
 #include "TFile.h"
 #include "TH1.h"
@@ -15,12 +13,41 @@
 #include "TCut.h"
 #include "TStyle.h"
 #include <iostream.h>
-#include "latinoTree.h"
 #include "THStack.h"
+#include "TGraphErrors.h"
+#include "TLatex.h"
 
-TString latinoVar = "";
-TString darkVar = "";
-Float_t range = 1000.;
+int iDark100 = 100;
+
+//const int nProcesses = 5;
+//enum {iDark100, iDark10, iZH, iHWW, iWW};
+
+const int nProcesses = 4;
+enum {iDark10, iZH, iHWW, iWW};
+
+TFile *input[nProcesses];
+TH1F  *histo[nProcesses];
+
+//TGraphErrors* ratio = new TGraphErrors();
+
+TString process[nProcesses];
+
+process[iDark10]  = "Dark10";
+//process[iDark100] = "Dark100";
+process[iWW]      = "WW";
+process[iHWW]     = "HWW";
+process[iZH]      = "ZH";
+
+Color_t color[nProcesses];
+
+color[iDark10]  = kGreen + 4;
+//color[iDark100] = kGreen + 2;
+color[iWW]      = kAzure - 9;
+color[iHWW]     = kRed;
+color[iZH]      = kViolet;
+
+TGraphErrors *errors  = new TGraphErrors();
+TGraphErrors *erRatio = new TGraphErrors();
 
 //drawing instructions
 void drawPlots(TString variable,
@@ -28,303 +55,397 @@ void drawPlots(TString variable,
 	       Float_t right, 
 	       Int_t   nrebin,
 	       TString units = "",
-	       TFile  *fDark_,
-	       TFile  *fDark100_,
-	       TFile  *fDark10_,
-	       TFile  *fDark1000_,	      
-	       TFile  *fDark500_,
-	       TFile  *fZH_,
-	       TFile  *fHWW_,
-	       TFile  *fWW_,
 	       TString format,
 	       TString drawLog,
-	       TString norm
+	       TString norm,
+	       TString Channel,
+	       TString StackMode,
+	       TString muonID,
+	       TString DataMode = "nodata" 
 	       ){
 
-  TH1F *hDark1    = (TH1F*)fDark_->Get(variable);
-  TH1F *hDark100  = (TH1F*)fDark100_->Get(variable);
-  TH1F *hDark10   = (TH1F*)fDark10_->Get(variable);
-  TH1F *hDark500  = (TH1F*)fDark500_->Get(variable);
-  TH1F *hDark1000 = (TH1F*)fDark1000_->Get(variable);
-  TH1F *hZH       = (TH1F*)fZH_->Get(variable);
-  TH1F *hHWW      = (TH1F*)fHWW_->Get(variable);
-  TH1F *hWW       = (TH1F*)fWW_->Get(variable);
-  
-  hDark1    -> Rebin(nrebin);
-  hDark10   -> Rebin(nrebin);
-  hDark100  -> Rebin(nrebin);
-  hDark500  -> Rebin(nrebin);
-  hDark1000 -> Rebin(nrebin);
-  hZH       -> Rebin(nrebin);
-  hHWW      -> Rebin(nrebin);
-  hWW       -> Rebin(nrebin);
+  Float_t rangeY = 0.;
 
-  hDark1    -> GetXaxis() -> SetRangeUser(left,right);
-  hDark10   -> GetXaxis() -> SetRangeUser(left,right);
-  hDark100  -> GetXaxis() -> SetRangeUser(left,right);
-  hDark500  -> GetXaxis() -> SetRangeUser(left,right);
-  hDark1000 -> GetXaxis() -> SetRangeUser(left,right);
-  hZH       -> GetXaxis() -> SetRangeUser(left,right);
-  hHWW      -> GetXaxis() -> SetRangeUser(left,right);
-  hWW       -> GetXaxis() -> SetRangeUser(left,right);
+  TString path = "rootFiles/AllJet/" + Channel + "/";
 
-  //histograms normalization
-  if (norm == "on"){
-    hDark1    ->Scale(1./hDark1->Integral());
-    hDark10   ->Scale(1./hDark10->Integral());
-    hDark100  ->Scale(1./hDark100->Integral());
-    hDark500  ->Scale(1./hDark500->Integral());
-    hDark1000 ->Scale(1./hDark1000->Integral());
-    hZH       ->Scale(1./hZH->Integral());
-    hHWW      ->Scale(1./hHWW->Integral());
-    hWW       ->Scale(1./hWW->Integral());
+  for (int ip = 0; ip < nProcesses; ++ip){
+    TString fileName = path + process[ip] + ".root";
+    input[ip] = new TFile(fileName, "read");
+
+    if (input[ip] -> GetListOfKeys() -> Contains(variable) == 0){
+      cout<<"I cannot find the histogram named "<<variable<<". I'll skip it."<<endl;
+      return;
+    }
+
+    histo[ip]  = (TH1F*) input[ip] -> Get(variable);
+    histo[ip] -> Rebin(nrebin);
+    histo[ip] -> GetXaxis() -> SetRangeUser(left,right);
+
+    //histograms normalization
+    if (norm == "normon"){
+      histo[ip] -> Scale(1./histo[ip] -> Integral());
+      histo[ip] -> SetLineWidth(3);
+    }    
+
+    //Y axis range
+    if( histo[ip] -> GetMaximum() > rangeY )
+      rangeY = histo[ip] -> GetMaximum();
   }
+  
+  if (norm == "normoff" && drawLog == "logoff")
+    histo[iDark10]->Scale(100);
 
   TCanvas *c1 = new TCanvas("variable","variable",600,800);
   c1->cd();
   
   TPad* pad1 = new TPad("pad1", "pad1", 0., 0., 1.0, 1.0);
-  pad1->SetLeftMargin(0.16);
+  pad1->SetLeftMargin(0.20);
   pad1->SetBottomMargin(0.18);
   pad1->Draw();
   pad1->cd();
 
-  Float_t rangeY = max(hDark1->GetMaximum(),hZH->GetMaximum());
-  rangeY = max(rangeY,hHWW->GetMaximum());
-  rangeY = max(rangeY,hDark1->GetMaximum());
-  rangeY = max(rangeY,hDark10->GetMaximum());
-  rangeY = max(rangeY,hDark100->GetMaximum());
-  rangeY = max(rangeY,hDark500->GetMaximum());
-  rangeY = max(rangeY,hDark1000->GetMaximum());
-  rangeY = max(rangeY,hWW->GetMaximum());
-  hZH->SetTitleSize(4.);
+  histo[0]->SetTitleSize(4.);
 
   Float_t rangeMin = 0.0001;
 
-  if (drawLog == "on"){
-    hZH->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
-    hDark1->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
-    //hDark100->GetYaxis()->SetRangeUser(rangeMin,rangeY*pow(10.,log10(rangeY/rangeMin))/10);
+  if (drawLog == "logon"){
+    histo[0] -> GetYaxis() -> SetRangeUser(rangeMin, rangeY / rangeMin);
     pad1->SetLogy();
   }  
-  else if (drawLog == "off"){
-    rangeY = 1.5*rangeY;
-    hZH->GetYaxis()->SetRangeUser(0.,rangeY);
-    hDark1->GetYaxis()->SetRangeUser(0.,rangeY);
-    //hDark100->GetYaxis()->SetRangeUser(0.,rangeY);
+  else if (drawLog == "logoff"){
+    histo[0] -> GetYaxis() -> SetRangeUser(0.,1.6.*rangeY);
   }
 
   if(units != "[]")
-    hZH->GetXaxis()->SetTitle(units);
-  //else
-  //hZH->GetXaxis()->SetTitle(variable);
-  
-  hZH->GetXaxis()->SetTitleSize(0.07);
-  hZH->GetXaxis()->SetTitleOffset(0.9);
-  hZH->GetXaxis()->SetLabelSize(0.05);
-  hZH->GetYaxis()->SetTitleSize(0.05);
-  hZH->GetYaxis()->SetLabelSize(0.05);  
-  hZH->GetXaxis()->SetNdivisions(408);
-  hZH->GetYaxis()->SetTitleOffset(1.6);
-  hZH->GetYaxis()->SetTitle(Form("entries / %.1f", hZH->GetBinWidth(0)));
+    histo[0]->GetXaxis()->SetTitle(units);
+  histo[0]->GetXaxis()->SetTitleSize(0.07);
+  histo[0]->GetXaxis()->SetTitleOffset(0.9);
+  histo[0]->GetXaxis()->SetLabelSize(0.045);
+  histo[0]->GetYaxis()->SetTitleSize(0.05);
+  histo[0]->GetYaxis()->SetLabelSize(0.045);  
+  histo[0]->GetXaxis()->SetNdivisions(408);
+  histo[0]->GetYaxis()->SetNdivisions(408);
+  histo[0]->GetYaxis()->SetTitleOffset(2.0);
+  histo[0]->GetYaxis()->SetTitle(Form("entries / %.1f", histo[0]->GetBinWidth(0)));
 
-  hZH->SetLineWidth(3);
-  hDark1->SetLineWidth(3);
-  hDark100->SetLineWidth(3);
-  hDark10->SetLineWidth(3);
-  hDark1000->SetLineWidth(3);
-  hDark500->SetLineWidth(3);
-  hHWW->SetLineWidth(3);
-  hWW->SetLineWidth(3);
+  TLegend* leg = new TLegend(0.25,0.70,0.75,0.89);
+  Float_t maxYaxis = 0.;
 
-  hZH->SetStats(0);
-  hDark1->SetStats(0);
-  hDark100->SetStats(0);
-  hDark10->SetStats(0);
-  hDark1000->SetStats(0);
-  hDark500->SetStats(0);
-  hHWW->SetStats(0);
-  hWW->SetStats(0);
-
-  hDark1->SetLineColor(kBlue);
-  hDark100->SetLineColor(kBlack);
-  hDark10->SetLineColor(kYellow);
-  hDark1000->SetLineColor(46);
-  hDark500->SetLineColor(40);
-  hZH->SetLineColor(kRed);
-  hHWW->SetLineColor(kGreen+2);
-  hWW->SetLineColor(kGreen+4);
-
-  hZH->Draw();
-  hDark1000->Draw("same");
-  hDark500->Draw("same");
-  //hDark100->Draw("same");
-  //hDark10->Draw("same");
-  hDark1->Draw("same");
-  hHWW->Draw("same");
-  hWW->Draw("same");
-
-  TLegend* leg = new TLegend(0.20,0.70,0.70,0.89);
-  leg->AddEntry(hZH,"ZH #rightarrow #nu#nuWW","l");
-  leg->AddEntry(hDark1,"HXX #rightarrow WWXX, m_{X} = 1GeV","l");
-  //leg->AddEntry(hDark10,"HXX #rightarrow WWXX, m_{X} = 10GeV","l");
-  //leg->AddEntry(hDark100,"HXX #rightarrow WWXX, m_{X} = 100GeV","l");
-  leg->AddEntry(hDark500,"HXX #rightarrow WWXX, m_{X} = 500GeV","l");
-  leg->AddEntry(hDark1000,"HXX #rightarrow WWXX, m_{X} = 1000GeV","l");
-  leg->AddEntry(hHWW,"H #rightarrow WW","l");
-  leg->AddEntry(hWW,"WW","l");
+  histo[0] -> Draw();
+  for (int ip = nProcesses - 1; ip >= 0 ; --ip){
+    histo[ip]->SetStats(0);
+    histo[ip]->SetLineColor(color[ip]);
+    if (ip == iDark10)
+      leg->AddEntry(histo[iDark10],"monoH, m_{#chi} = 10 GeV","l");
+    else if (ip == iDark100)
+    leg->AddEntry(histo[iDark100],"monoH, m_{#chi} = 100 GeV","l");
+    else if(norm == "normon")
+      leg->AddEntry(histo[ip],process[ip],"l");
+    else leg->AddEntry(histo[ip],process[ip],"f");
+    histo[ip] -> Draw("same");
+    maxYaxis += histo[ip] -> GetMaximum();
+  }
+  //leg->AddEntry(histo[iData],process[iData],"lep");
   leg->SetTextSize(0.03);
   leg->SetFillColor(kWhite);
   leg->SetLineColor(kWhite);
   leg->Draw();
-  
-  c1->Print(variable + "." + format, format);
+
+  if (StackMode == "stackoff")
+    c1->Print(variable + "." + format, format);
 
   //building the tstack
-  hZH    -> SetFillColor(kRed);
-  hDark1 -> SetFillColor(kBlue);
-  hHWW   -> SetFillColor(kGreen+2);
-  hWW    -> SetFillColor(kGreen+4);
+  for (int ip = 0; ip < nProcesses; ++ip){
+    histo[ip]    -> SetFillColor(color[ip]);
+    histo[ip]    -> SetFillStyle(1001);
+  }
+  histo[0]->SetFillColorAlpha(color[0],0);
+  histo[0]->SetLineWidth(3);
+  //  histo[1]->SetFillColorAlpha(color[0],0);
+  //histo[1]->SetLineWidth(3);
 
-  THStack* hstack = new THStack("","");
+  TString title  = variable;
+  TString njets  = "Inclusive";
 
-  if (drawLog == "on"){
-    Float_t maxYaxis = hDark1 -> GetMaximum() + hZH -> GetMaximum() + hHWW -> GetMaximum() + hWW -> GetMaximum();
-    //maxYaxis = maxYaxis**2;//pow(10.,maxYaxis/rangeMin);
-    //hstack -> GetYaxis() -> SetRangeUser(rangeMin,maxYaxis);
-    hstack->SetMinimum(rangeMin);
-    hstack->SetMaximum(maxYaxis*pow(10.,-4));
+  if (title.Contains("Level0")) njets = "0  Jet";
+  if (title.Contains("Level1")) njets = "1  Jet";
+  if (title.Contains("Level2")) njets = "2+ Jet";
+
+  /*
+  if(title.Contains("stack"))
+    title.Remove(title.Length() - 5);
+  if(title.Contains("TwoLeptonsLevel"))
+    title.Remove(title.Length() - 15);
+  if(title.Contains("WWLevel"))
+    title.Remove(title.Length() - 8);
+  cout<<variable<<","<<title<<endl;
+  */
+  THStack* hstack = new THStack("","");//title, title);
+  
+  //use this histogram for stack Y axis range
+  TH1F haxis("haxis","haxis",histo[0]->GetNbinsX(),0.,histo[0]->GetNbinsX()*histo[0]->GetBinWidth(0));
+  for(int i = 0; i < nProcesses; ++i){
+  haxis.Add(histo[i]);
   }
 
-  else if (drawLog == "off"){
-    Float_t maxYaxis = hDark1 -> GetMaximum() + hZH -> GetMaximum() + hHWW -> GetMaximum() + hWW -> GetMaximum();
-    //hstack -> GetYaxis() -> SetRangeUser(0.,maxYaxis);
+  //cout<<haxis.GetNbinsX() * haxis.GetBinWidth(0)<<endl;
+  //haxis.GetXaxis()->SetLimits(left,right);
+  
+  //TH1F *errors = new TH1F("errors","",haxis.GetNbinsX(),0.,histo[0]->GetNbinsX() * histo[0]->GetBinWidth(0));
+  //TH1F *erRatio = new TH1F("erRatio","",haxis.GetNbinsX(),0.,histo[0]->GetNbinsX() * histo[0]->GetBinWidth(0));
+
+  Float_t large = histo[0]->GetBinWidth(0) / 2;
+  //building error graphs
+  for(int e = 0; e < haxis.GetNbinsX(); ++e){//e < errors -> GetNbinsX(); ++e){
+      errors->SetPoint(e,histo[0]->GetXaxis()->GetBinCenter(e), haxis.GetBinContent(e));//SetBinContent(e, haxis.GetBinContent(e));
+      errors->SetPointError(e, large, haxis.GetBinError(e));//haxis.GetBinError(e));
+      erRatio->SetPoint(e, histo[0]->GetXaxis()->GetBinCenter(e), 1);//1);
+      if (haxis.GetBinContent(e) != 0) 
+	erRatio->SetPointError(e, large, haxis.GetBinError(e) / haxis.GetBinContent(e));//haxis.GetBinError(e) / haxis.GetBinContent(e));
+      else erRatio->SetPointError(e, large, 0.);
+    }
+  float maxYaxisStack = 0.;
+  Int_t maxBin = haxis.GetMaximumBin();
+  maxYaxisStack = haxis.GetBinContent(maxBin) + errors -> GetErrorY(maxBin) / 2;
+  
+  //Int_t maxBinData = histo[iData]->GetMaximumBin();
+  //if(histo[iData]->GetBinContent(maxBinData) + errors -> GetErrorY(maxBinData) / 2 > maxYaxisStack)
+  //maxYaxisStack = histo[iData]->GetBinContent(maxBinData) + errors -> GetErrorY(maxBinData) / 2;
+
+  errors -> SetMarkerStyle(8);
+  errors -> SetFillStyle(3005);	
+  errors -> SetFillColor(kBlack);
+
+  erRatio -> SetMarkerStyle(8);
+  erRatio -> SetFillStyle(3005);	
+  erRatio -> SetFillColor(kBlack);
+  
+  //Y-axis draw options
+  if (drawLog == "logon"){
+    hstack -> SetMinimum(rangeMin);
+    hstack -> SetMaximum(maxYaxisStack / rangeMin);// * rangeMin);
+  }
+
+  else if (drawLog == "logoff"){
     hstack -> SetMinimum(0.);
-    hstack -> SetMaximum(maxYaxis/2.8);
+    hstack -> SetMaximum(maxYaxisStack*1.5);
   }
 
-  hstack -> Add(hDark1);
-  //hstack -> Add(hDark10);
-  //hstack -> Add(hDark100);
-  //hstack -> Add(hDark500);
-  //hstack -> Add(hDark1000);
-  hstack -> Add(hZH);      
-  hstack -> Add(hHWW);     
-  hstack -> Add(hWW);      
+  //actually building the stack
+  for (int w = 1; w < nProcesses; ++w){
+    hstack -> Add(histo[w]);      
+  }
 
   TCanvas *c2 = new TCanvas("stack","stack",600,800);
   c2->cd();
   
-  TPad* pad2 = new TPad("pad2", "pad2", 0., 0., 1.0, 1.0);
-  pad2->SetLeftMargin(0.16);
+  if (DataMode == "nodata")
+    TPad* pad2 = new TPad("pad2", "pad2", 0.0, 0.0, 1.0, 1.0);
+
+  else if (DataMode == "dataon") {
+    TPad* pad2 = new TPad("pad2", "pad2", 0.0, 0.160, 1.0, 1.0); //0.300
+    TPad* pad3 = new TPad("pad3", "pad3", 0.0, 0.000, 1.0, 0.3);
+  }
+
+  c2->Update();
+  c2->cd();
+  pad2->SetLeftMargin(0.20);
   pad2->SetBottomMargin(0.18);
+  pad2->SetTitle(title);
   pad2->Draw();
   pad2->cd();
-  if (drawLog == "on")
+
+  if (drawLog == "logon")
     pad2->SetLogy();
   hstack->Draw("hist");
 
   hstack -> GetXaxis() -> SetRangeUser(left,right);
-  hstack -> GetYaxis() -> SetTitle(Form("entries / %.1f", hZH->GetBinWidth(0)));
-  hstack -> GetYaxis() -> SetTitleOffset(1.6);
-
+  hstack -> GetYaxis() -> SetTitle(Form("entries / %.1f", histo[0]->GetBinWidth(0)));
+  hstack -> GetYaxis() -> SetTitleOffset(2.0);
+  hstack -> GetXaxis() -> SetLabelOffset(0.015);
+  hstack -> GetXaxis() -> SetTitleOffset(0.9);  
   hstack -> GetXaxis() -> SetTitleSize(0.07);
-  hstack -> GetXaxis() -> SetTitleOffset(0.9);
-  hstack -> GetXaxis() -> SetLabelSize(0.05);
+  if (DataMode == "dataon")
+    hstack -> GetXaxis() -> SetLabelOffset(0.03);
+  hstack -> GetXaxis() -> SetLabelSize(0.045);
   hstack -> GetYaxis() -> SetTitleSize(0.05);
-  hstack -> GetYaxis() -> SetLabelSize(0.05);  
+  hstack -> GetYaxis() -> SetLabelSize(0.045);  
   hstack -> GetXaxis() -> SetTitle(units);
   hstack -> GetXaxis() -> SetNdivisions(408);
+  hstack -> GetYaxis() -> SetNdivisions(408);
 
-  hZH    -> SetFillStyle(1001);
-  hDark1 -> SetFillStyle(1001);
-  hWW    -> SetFillStyle(1001);
-  hHWW   -> SetFillStyle(1001);
+  //histo[iData]->SetMarkerStyle(8);//kFullCircle);
 
-  hstack->Draw("hist");
+  //histo[iData] -> Draw("ep");
+  hstack -> Draw("hist");
+  histo[0]->Draw("same");
+  //histo[iData] -> Draw("epsame");
+  
+  errors -> Draw("same,2");
 
-  TLegend* leg2 = new TLegend(0.20,0.75,0.70,0.89);
-  leg2->AddEntry(hWW,"WW","f");
-  leg2->AddEntry(hHWW,"H #rightarrow WW","f");
-  leg2->AddEntry(hZH,"ZH #rightarrow #nu#nuWW","f");
-  leg2->AddEntry(hDark1,"HXX #rightarrow WWXX, m_{X} = 1GeV","f");
-  //leg2->AddEntry(hDark100,"HXX #rightarrow WWXX, m_{X} = 100GeV","f");
-  //leg2->AddEntry(hDark10,"HXX #rightarrow WWXX, m_{X} = 10GeV","f");
-  //leg2->AddEntry(hDark1000,"HXX #rightarrow WWXX, m_{X} = 1000GeV","f");
-  //leg2->AddEntry(hDark500,"HXX #rightarrow WWXX, m_{X} = 500GeV","f");
-  leg2->SetTextSize(0.03);
-  leg2->SetFillColor(kWhite);
-  leg2->SetLineColor(kWhite);
-  leg2->Draw();
+      TH1F ratio("ratio","",haxis.GetNbinsX(),left,histo[0]->GetNbinsX() * histo[0]->GetBinWidth(0));
+      ratio.SetStats(0);
+      
+      //cout<<histo[0]->GetBinWidth(0)<<","<<large<<endl;
+      /*
+      cout<<errors -> GetNbinsX()<<","<<haxis.GetNbinsX()<<","<<ratio.GetNbinsX()<<","<<hstack->GetHistogram()->GetNbinsX()<<endl;
+      cout<<errors -> GetBinWidth(0)<<","<<haxis.GetBinWidth(0)<<","<<ratio.GetBinWidth(0)<<","<<hstack->GetHistogram()->GetBinWidth(0)<<endl;
+      */
+  if(DataMode == "dataon"){
+    for(int p = 0; p < histo[0]->GetNbinsX(); ++p){
+      if(haxis.GetBinContent(p) != 0){
+	//ratio.SetBinContent(p, histo[0]->GetBinCenter(p), histo[iData]->GetBinContent(p) / haxis.GetBinContent(p));
+	float ratioErr = histo[iData]->GetBinError(p) / histo[iData]->GetBinContent(p) + haxis.GetBinError(p) / haxis.GetBinContent(p);
+	//ratio.SetBinError(p, 0.5*histo[0]->GetBinWidth(p), ratioErr* ratio.GetBinContent(p));
+      }
+      else 
+	ratio.SetBinContent(p, histo[0]->GetBinCenter(p), 0.);
+    }
+    c2->Update();
+    c2->cd();
+    ratio.GetXaxis()->SetRangeUser(0.,haxis.GetNbinsX() * haxis.GetBinWidth(0));
+    //ratio.GetXaxis()->SetLimits(0.,haxis.GetNbinsX() * haxis.GetBinWidth(0));
+    ratio.GetYaxis()->SetRangeUser(0.,2.);
+    ratio.GetXaxis()->SetTitleSize(0.15);
+    ratio.GetXaxis()->SetTitleOffset(1.2);
+    ratio.GetXaxis()->SetLabelSize(0.10);
+    ratio.GetYaxis()->SetTitleSize(0.14);
+    ratio.GetYaxis()->SetLabelSize(0.10);  
+    ratio.GetXaxis()->SetTitle(units);
+    ratio.GetXaxis()->SetNdivisions(306);
+    ratio.GetYaxis()->SetNdivisions(306);
+    ratio.SetMarkerStyle(8);
+    pad3->SetLeftMargin(0.20);
+    pad3->SetBottomMargin(0.45);
+    pad3->SetTitle(title);
+    pad3->Draw();
+    pad3->cd();
+    ratio.Draw("ep,2");
+    erRatio->Draw("same,2");
+  }
+  /*  
+      TLegend* leg2 = new TLegend(0.20,0.75,0.70,0.89);
+      for (int ip = 0; ip < nProcesses; ++ip)
+      leg2->AddEntry(histo[ip],process[ip],"l");
+      leg2->SetTextSize(0.03);
+      leg2->SetFillColor(kWhite);
+      leg2->SetLineColor(kWhite);
+  */
 
-  c2 -> Print(variable + "stack." + format, format);
+  pad2->Update();
+  pad2->cd();
 
-  delete hDark1;
-  delete hDark100;
-  delete hDark10;
-  delete hDark500;
-  delete hDark1000;
-  delete hZH;
-  delete hHWW;
-  delete hWW;
+  leg -> Draw();
+  DrawTLatex(0.88, 0.860, 0.04, "CMS preliminary");
+  DrawTLatex(0.88, 0.830, 0.03, "L = 100 fb^{-1}");
+  DrawTLatex(0.88, 0.780, 0.05, Channel);
+  DrawTLatex(0.88, 0.740, 0.04, "Inclusive");//njets);
+  
+  pad2->Update();
+  
+  if (StackMode == "stackon")
+    c2 -> Print(variable + "stack." + format, format);
+  
+  for(int ip = 0; ip < nProcesses; ++ip)
+    delete histo[ip];
   delete c1;
   delete c2;
   delete hstack;
-
-  if (drawLog == "off" && norm == "off"){
-    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format);
-    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format);
+  
+  if (drawLog == "logoff" && norm == "normoff"){
+    if (StackMode == "stackoff")
+      gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "/");
+    else
+      gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "/");
   }
-  else if(drawLog == "on" && norm == "off"){
-    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format + "Log");
-    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format + "Log");
+  else if(drawLog == "logon" && norm == "normoff"){
+    if (StackMode == "stackoff")
+      gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "Log/");
+    else
+      gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "Log/");
   }
-  else if(drawLog == "off" && norm == "on"){
-    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format + "Norm");
-    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format + "Norm");
+  else if(drawLog == "logoff" && norm == "normon"){
+    if (StackMode == "stackoff")
+      gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "Norm/");
+    else
+      gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "Norm/");
   }
-  else if(drawLog == "on" && norm == "on"){
-    gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + format + "NormLog");
-    gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + format + "NormLog");
+  else if(drawLog == "logon" && norm == "normon"){
+    if (StackMode == "stackoff")
+      gSystem->Exec("mv " + variable + "." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "NormLog/");
+    else
+      gSystem->Exec("mv " + variable + "stack." + format + " " + "distributions/" + Channel + "/" + muonID + "/" + format + "NormLog/");
   }
-
+  
 }
 
 //main function
-void macroHisto(TString printMode = "png", TString logMode = "on", TString normMode = "off", TString XS = "1"){
+void macroHisto(TString printMode = "", 
+		TString logMode   = "", 
+		TString normMode  = "",
+		TString channel   = "",
+		TString stackMode = "",
+		TString MuonID    = ""
+		){
+  
+  if(printMode == "" || logMode == "" || normMode == "" || channel == "" || stackMode == "" || MuonID == ""){
+    cout<<"****************************************************************************************************"<<endl;
+    cout<<"Please choose a set of options."<<endl;
+    cout<<"root -l -b -q 'macroHisto.C(printMode,logMode,normMode,channel)', where:"<<endl;
+    cout<<"printMode = 'C', 'png' or 'pdf'"<<endl;
+    cout<<"logMode = 'logon' or 'logoff'"<<endl;
+    cout<<"normMode = 'normon' or 'normoff'"<<endl;
+    cout<<"channel = 'All' or 'OF' or 'SF' or 'MuMu' or 'EE' or 'EMu' or 'MuE'"<<endl;
+    cout<<"stackMode = 'stackon' or 'stackoff'"<<endl;
+    cout<<"MuonID = 'MediumID' or 'MediumIDTighterIP' or 'TightID' or 'TightIDTighterIP'"<<endl;
+    cout<<"I suggest, for example:"<<endl;
+    cout<<"root -l -b -q 'macroHisto.C(\"pdf\",\"logoff\",\"normoff\",\"OF\",\"stackon\",\"TightIDTighterIP\")'"<<endl;
+    cout<<"****************************************************************************************************"<<endl;
+    return;
+  }
+
   if (printMode == "C" || printMode == "png" || printMode == "pdf"){
     gSystem->Exec("mkdir distributions");
-    gSystem->Exec("mkdir distributions/" + printMode);
-    gSystem->Exec("mkdir distributions/" + printMode + "Norm");
-    gSystem->Exec("mkdir distributions/" + printMode + "Log");
-    gSystem->Exec("mkdir distributions/" + printMode + "NormLog");
-
-    cout<<"siiiiiiiiiiii"<<endl;
+    gSystem->Exec("mkdir distributions/" + channel);
+    gSystem->Exec("mkdir distributions/" + channel + "/" + MuonID);
+    if (logMode == "logoff" && normMode == "normoff")
+      gSystem->Exec("mkdir distributions/"  + channel + "/" + MuonID + "/" + printMode);
+    else if (logMode == "logoff" && normMode == "normon")
+      gSystem->Exec("mkdir distributions/"  + channel + "/" + MuonID + "/"  + printMode + "Norm");
+    else if (logMode == "logon" && normMode == "normoff")
+      gSystem->Exec("mkdir distributions/"  + channel + "/" + MuonID + "/"  + printMode + "Log");
+    else if (logMode == "logon" && normMode == "normon")
+      gSystem->Exec("mkdir distributions/"  + channel + "/" + MuonID + "/"  + printMode + "NormLog");
   }
   else{
-    cout<<"please print a valid plot format"<<endl;
+    cout<<"please print a valid plot format: 'C', 'png' or 'pdf'"<<endl;
     return;
   }
 
-  if(logMode != "on" && logMode != "off"){
-    cout<<"I'd like to know if you want the log mode to be 'on' or 'off'"<<endl;
+  if(logMode != "logon" && logMode != "logoff"){
+    cout<<"I'd like to know if you want the log mode to be 'logon' or 'logoff'"<<endl;
     return;
   }
 
-  if(normMode != "on" && normMode != "off"){
-    cout<<"I'd like to know if you want the normalization mode to be 'on' or 'off'"<<endl;
+  if(normMode != "normon" && normMode != "normoff"){
+    cout<<"I'd like to know if you want the normalization mode to be 'normon' or 'normoff'"<<endl;
     return;
   }
 
-  gSystem->Exec("mkdir distributions/" + printMode);
-  TFile* fDark     = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark1.root");
-  TFile* fZH       = new TFile("rootFiles/AllJet/OF/" + XS + "/ZH.root");
-  TFile* fHWW      = new TFile("rootFiles/AllJet/OF/" + XS + "/HWW.root");
-  TFile* fDark100  = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark100.root");
-  TFile* fDark10   = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark10.root");
-  TFile* fDark1000 = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark1000.root");
-  TFile* fDark500  = new TFile("rootFiles/AllJet/OF/" + XS + "/Dark500.root");
-  TFile* fWW       = new TFile("rootFiles/AllJet/OF/" + XS + "/WW.root");
+  if (channel != "All" && channel !=  "OF" && channel !=  "SF" && channel !=  "MuMu" && channel !=  "EE" && channel !=  "EMu" && channel !=  "MuE"){
+    cout<<"Please select a valid flavour channel to look at: 'All' or 'OF' or 'SF' or 'MuMu' or 'EE' or 'EMu' or 'MuE'"<<endl;
+    return;
+  }
+
+  if (stackMode != "stackon" && stackMode != "stackoff"){
+    cout<<"Please select a valid print mode: 'stackon' or 'stackoff'"<<endl;
+    return;
+  }
+
+  if (MuonID != "MediumID" && MuonID != "TightID" && MuonID != "TightIDTighterIP" && MuonID != "MediumIDTighterIP"){
+    cout<<"Please select the muon ID plots you want to draw"<<endl;
+    return;
+}
 
   Int_t cont = 0;
   TString var;
@@ -334,20 +455,35 @@ void macroHisto(TString printMode = "png", TString logMode = "on", TString normM
   Int_t nbin = 10;
   ifstream inFile("input.txt");
   std::string line;
-  
+
   while (getline(inFile,line)){
     
     std::ofstream outFile("out.tmp",std::ios::out);
     outFile<<line<<endl;
     outFile.close();
-    std::ifstream input;
-    input.open("out.tmp",std::ios::in);
-    input >> var >> leftBound >> rightBound >> nbin >> units;
-    input.close();
-    cout<<var<<" "<<leftBound<<" "<<rightBound<<" "<<nbin<<" "<<units<<" "<<printMode<<endl;
-    drawPlots(var, leftBound, rightBound, nbin, units, fDark, fDark100, fDark10, fDark1000, fDark500, fZH, fHWW, fWW, printMode,logMode,normMode);
+    std::ifstream input_;
+    input_.open("out.tmp",std::ios::in);
+    input_ >> var >> leftBound >> rightBound >> nbin >> units;
+    input_.close();
+    drawPlots(var, leftBound, rightBound, nbin, units, printMode, logMode, normMode, channel, stackMode, MuonID);
   } 
-    
+  
   inFile.close();
   gSystem->Exec("rm out.tmp");
+  //  gSystem->Exec("rm outHisto.tmp");
+}
+
+//------------------------------------------------------------------------------
+// DrawTLatex
+//------------------------------------------------------------------------------
+void DrawTLatex(Double_t x, Double_t y, Double_t tsize, const char* text)
+{
+  TLatex* tl = new TLatex(x, y, text);
+
+  tl->SetNDC();
+  tl->SetTextAlign(   32);
+  tl->SetTextFont (   42);
+  tl->SetTextSize (tsize);
+
+  tl->Draw("same");
 }

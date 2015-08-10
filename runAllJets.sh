@@ -14,24 +14,23 @@ TEST="test"
 NJETS=0
 
 CHANNELS="OF"
+#"All SF OF EE MuE EMu MuMu "
 
 PROOFMODE="Cluster"
 
-MULTIPLICATEXS=$1
-
-#"All SF OF EE MuE EMu MuMu "
-
 SAMPLES="
-Dark1              \
-Dark10             \
-Dark100            \
-Dark500            \
 Dark1000           \
+Dark500            \
+Dark100            \
+Dark10             \
 ZH                 \
 HWW                \
 WW                 \
 "
-
+#Dark100            \
+#Dark500            \
+#Dark1000           \
+#Dark1              \
 #QCD                \ 
 #Top                \
 #WJets              \
@@ -51,7 +50,7 @@ for CHANNEL in $CHANNELS; do
 	mkdir rootFiles/AllJet/
 	mkdir rootFiles/AllJet/${CHANNEL}	
 	mkdir rootFiles/AllJet/${CHANNEL}/${MULTIPLICATEXS}	
-	root -l -b -q "RunPROOF_test.C($LUMINOSITY,\"$TEST\",\"$SAMPLE\","$NJETS",\"$CHANNEL\",\"$PROOFMODE\","$MULTIPLICATEXS")"
+	root -l -b -q "RunPROOF_test.C($LUMINOSITY,\"$TEST\",\"$SAMPLE\","$NJETS",\"$CHANNEL\",\"$PROOFMODE\")"
 	mv ${SAMPLE}.root rootFiles/AllJet/${CHANNEL}/${MULTIPLICATEXS}
   
     done
