@@ -23,7 +23,7 @@ int iDark100 = 100;
 //enum {iDark100, iDark10, iZH, iHWW, iWW};
 
 const int nProcesses = 4;
-enum {iDark10, iZH, iHWW, iWW};
+enum {iDark10, iZH, iHWW, iWW};//, iTTJets, iDY};
 
 TFile *input[nProcesses];
 TH1F  *histo[nProcesses];
@@ -37,14 +37,18 @@ process[iDark10]  = "Dark10";
 process[iWW]      = "WW";
 process[iHWW]     = "HWW";
 process[iZH]      = "ZH";
+//process[iTTJets]  = "TTJets";
+//process[iDY]      = "DY";
 
 Color_t color[nProcesses];
 
 color[iDark10]  = kGreen + 4;
 //color[iDark100] = kGreen + 2;
-color[iWW]      = kAzure - 9;
-color[iHWW]     = kRed;
-color[iZH]      = kViolet;
+color[iWW]       = kAzure - 9;
+color[iHWW]      = kRed;
+color[iZH]       = kViolet;
+//process[iTTJets] = "kYellow";
+//process[iDY]     = "kGreen + 2";
 
 TGraphErrors *errors  = new TGraphErrors();
 TGraphErrors *erRatio = new TGraphErrors();

@@ -136,6 +136,13 @@ class test: public PAFAnalysis{
 
    // monoH level histograms                                                         
    //---------------------------------------------------------------------------- 
+
+   TH1F* hpfMetCR;
+   TH1F* htrkMetCR;
+   TH1F* hmpMetCR;
+
+   // monoH level histograms                                                         
+   //---------------------------------------------------------------------------- 
    
    TH1F* hPtLepton1monoHLevel[4];
    TH1F* hPtLepton2monoHLevel[4];

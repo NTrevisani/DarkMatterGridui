@@ -1,3 +1,43 @@
+hPtLepton1TwoLeptonsLevel	    0.	    500.    10	    p_{T}^{lep1}[GeV]
+hPtLepton2TwoLeptonsLevel	    0.	    300.    10	    p_{T}^{lep2}[GeV]
+hPtDiLeptonTwoLeptonsLevel	    0.	    500.    10	    p_{T}^{ll}[GeV]
+hMinvTwoLeptonsLevel		    0.	    600.    10	    m_{ll}[GeV]
+hMtTwoLeptonsLevel		    0.	    800.    10	    m_{T}^{H}[GeV]
+hMt1TwoLeptonsLevel		    0.	    800.    20	    m_{T}W_{1}[GeV]
+hMt2TwoLeptonsLevel		    0.	    600.    20	    m_{T}W_{2}[GeV]
+hpfMetTwoLeptonsLevel	    	    0.	    800.    10	    pfMet[GeV]
+hpminMetTwoLeptonsLevel	    	    0.	    600.    10	    mpMet[GeV]
+hDeltaRLeptonsTwoLeptonsLevel 	    0.	    5.	    1	    #DeltaR_{ll}
+hDeltaPhiLeptonsTwoLeptonsLevel	    0.	    3.2	    1	    #Delta#phi_{ll}
+hDPhiPtllJetTwoLeptonsLevel	    0.	    3.2	    1	    #Delta#phi_{lljet}
+hDPhillMetTwoLeptonsLevel	    0.	    3.2	    1	    #Delta#phi_{llMet}
+hPtWWTwoLeptonsLevel	    	    0.	    600.    10      p_{T}^{WW}[GeV]
+hMcTwoLeptonsLevel		    0.	    600.    10	    m_{c}[GeV]
+hTrkMetTwoLeptonsLevel	    	    0.	    600.    20	    trkMet[GeV]
+hHtTwoLeptonsLevel		    0.	    1000.    10	    H_{T}[GeV]
+hdphijetjetTwoLeptonsLevel	    0.	    3.2	    1	    #Delta#phi_{jetjet}
+hdetajetjetTwoLeptonsLevel	    0.	    5.	    1	    #Delta#eta_{jetjet}
+
+hPtLepton1WWLevel		    0.	    500.    10	    p_{T}^{lep1}[GeV]
+hPtLepton2WWLevel		    0.	    300.    10	    p_{T}^{lep2}[GeV]
+hPtDiLeptonWWLevel		    0.	    500.    10	    p_{T}^{ll}[GeV]
+hMinvWWLevel		    	    0.	    600.    10	    m_{ll}[GeV]
+hMtWWLevel			    0.	    800.    10	    m_{T}^{H}[GeV]
+hMt1WWLevel			    0.	    800.    20	    m_{T}W_{1}[GeV]
+hMt2WWLevel			    0.	    600.    20	    m_{T}W_{2}[GeV]
+hpfMetWWLevel		    	    0.	    800.    10	    pfMet[GeV]
+hpminMetWWLevel		    	    0.	    600.    10	    mpMet[GeV]
+hDeltaRLeptonsWWLevel	    	    0.	    5.	    1	    #DeltaR_{ll}
+hDeltaPhiLeptonsWWLevel	    	    0.	    3.2	    1	    #Delta#phi_{ll}
+hDPhiPtllJetWWLevel		    0.	    3.2	    1	    #Delta#phi_{lljet}
+hDPhillMetWWLevel		    0.	    3.2	    1	    #Delta#phi_{llMet}
+hPtWWWWLevel		    	    0.	    600.    10      p_{T}^{WW}[GeV]
+hMcWWLevel			    0.	    600.    10	    m_{c}[GeV]
+hTrkMetWWLevel		    	    0.	    600.    20	    trkMet[GeV]
+hHtWWLevel			    0.	    1000.    10	    H_{T}[GeV]
+hdphijetjetWWLevel		    0.	    3.2	    1	    #Delta#phi_{jetjet}
+hdetajetjetWWLevel		    0.	    5.	    1	    #Delta#eta_{jetjet}
+
 hPtLepton1monoHLevel0		    0.	    500.    10	    p_{T}^{lep1}[GeV]
 hPtLepton2monoHLevel0		    0.	    300.    10	    p_{T}^{lep2}[GeV]
 hPtDiLeptonmonoHLevel0		    0.	    500.    10	    p_{T}^{ll}[GeV]
@@ -58,3 +98,6 @@ hHtmonoHLevel2			    0.	    1000.    10	    H_{T}[GeV]
 hdphijetjetmonoHLevel2		    0.	    3.2	    1	    #Delta#phi_{jetjet}
 hdetajetjetmonoHLevel2		    0.	    5.	    1	    #Delta#eta_{jetjet}
 
+hpfMetCR			    0.	    800.    10	    pfMet[GeV]
+htrkMetCR			    0.	    600.    10	    trkMet[GeV]
+hmpMetCR			    0.	    600.    10	    mpMet[GeV]

@@ -125,71 +125,79 @@ void test::Initialise() {
   // TwoLeptons level histograms   
   //----------------------------------------------------------------------------
   
-  hPtLepton1TwoLeptonsLevel       = CreateH1F("hPtLepton1TwoLeptonsLevel",       "", 1000, 0, 1000);
-  hPtLepton2TwoLeptonsLevel       = CreateH1F("hPtLepton2TwoLeptonsLevel",       "", 1000, 0, 1000);
-  hPtDiLeptonTwoLeptonsLevel      = CreateH1F("hPtDiLeptonTwoLeptonsLevel",      "", 1000, 0, 1000);
-  hMinvTwoLeptonsLevel            = CreateH1F("hMinvTwoLeptonsLevel",            "", 1000, 0, 1000);
-  hMtTwoLeptonsLevel              = CreateH1F("hMtTwoLeptonsLevel",              "", 1000, 0, 1000);
-  hMt1TwoLeptonsLevel             = CreateH1F("hMt1TwoLeptonsLevel",             "", 1000, 0, 1000);
-  hMt2TwoLeptonsLevel             = CreateH1F("hMt2TwoLeptonsLevel",             "", 1000, 0, 1000);
-  hpfMetTwoLeptonsLevel           = CreateH1F("hpfMetTwoLeptonsLevel",           "", 1000, 0, 1000);
-  hpminMetTwoLeptonsLevel         = CreateH1F("hpminMetTwoLeptonsLevel",         "", 1000, 0, 1000);
+  hPtLepton1TwoLeptonsLevel       = CreateH1F("hPtLepton1TwoLeptonsLevel",       "", 3000, 0, 3000);
+  hPtLepton2TwoLeptonsLevel       = CreateH1F("hPtLepton2TwoLeptonsLevel",       "", 3000, 0, 3000);
+  hPtDiLeptonTwoLeptonsLevel      = CreateH1F("hPtDiLeptonTwoLeptonsLevel",      "", 3000, 0, 3000);
+  hMinvTwoLeptonsLevel            = CreateH1F("hMinvTwoLeptonsLevel",            "", 3000, 0, 3000);
+  hMtTwoLeptonsLevel              = CreateH1F("hMtTwoLeptonsLevel",              "", 3000, 0, 3000);
+  hMt1TwoLeptonsLevel             = CreateH1F("hMt1TwoLeptonsLevel",             "", 3000, 0, 3000);
+  hMt2TwoLeptonsLevel             = CreateH1F("hMt2TwoLeptonsLevel",             "", 3000, 0, 3000);
+  hpfMetTwoLeptonsLevel           = CreateH1F("hpfMetTwoLeptonsLevel",           "", 3000, 0, 3000);
+  hpminMetTwoLeptonsLevel         = CreateH1F("hpminMetTwoLeptonsLevel",         "", 3000, 0, 3000);
   hDeltaRLeptonsTwoLeptonsLevel   = CreateH1F("hDeltaRLeptonsTwoLeptonsLevel",   "",   50, 0,    5);
   hDeltaPhiLeptonsTwoLeptonsLevel = CreateH1F("hDeltaPhiLeptonsTwoLeptonsLevel", "",   32, 0,  3.2);
   hDPhiPtllJetTwoLeptonsLevel     = CreateH1F("hDPhiPtllJetTwoLeptonsLevel",     "",   32, 0,  3.2);
   hDPhillMetTwoLeptonsLevel       = CreateH1F("hDPhillMetTwoLeptonsLevel",       "",   32, 0,  3.2);
-  hMcTwoLeptonsLevel              = CreateH1F("hMcTwoLeptonsLevel",              "", 1000, 0, 1000);  
-  hPtWWTwoLeptonsLevel            = CreateH1F("hPtWWTwoLeptonsLevel",            "", 1000, 0, 1000);
-  hTrkMetTwoLeptonsLevel          = CreateH1F("hTrkMetTwoLeptonsLevel",          "", 1000, 0, 1000);
-  hHtTwoLeptonsLevel              = CreateH1F("hHtTwoLeptonsLevel",              "", 1000, 0, 1000);
+  hMcTwoLeptonsLevel              = CreateH1F("hMcTwoLeptonsLevel",              "", 3000, 0, 3000);  
+  hPtWWTwoLeptonsLevel            = CreateH1F("hPtWWTwoLeptonsLevel",            "", 3000, 0, 3000);
+  hTrkMetTwoLeptonsLevel          = CreateH1F("hTrkMetTwoLeptonsLevel",          "", 3000, 0, 3000);
+  hHtTwoLeptonsLevel              = CreateH1F("hHtTwoLeptonsLevel",              "", 3000, 0, 3000);
   hdphijetjetTwoLeptonsLevel      = CreateH1F("hdphijetjetTwoLeptonsLevel",      "",   32, 0,  3.2);
   hdetajetjetTwoLeptonsLevel      = CreateH1F("hdetajetjetTwoLeptonsLevel",      "",   50, 0,  5.0);
 
   // WW level histograms   
   //----------------------------------------------------------------------------
   
-  hPtLepton1WWLevel       = CreateH1F("hPtLepton1WWLevel",       "", 1000, 0, 1000);
-  hPtLepton2WWLevel       = CreateH1F("hPtLepton2WWLevel",       "", 1000, 0, 1000);
-  hPtDiLeptonWWLevel      = CreateH1F("hPtDiLeptonWWLevel",      "", 1000, 0, 1000);
-  hMinvWWLevel            = CreateH1F("hMinvWWLevel",            "", 1000, 0, 1000);
-  hMtWWLevel              = CreateH1F("hMtWWLevel",              "", 1000, 0, 1000);
-  hMt1WWLevel             = CreateH1F("hMt1WWLevel",             "", 1000, 0, 1000);
-  hMt2WWLevel             = CreateH1F("hMt2WWLevel",             "", 1000, 0, 1000);
-  hpfMetWWLevel           = CreateH1F("hpfMetWWLevel",           "", 1000, 0, 1000);
-  hpminMetWWLevel         = CreateH1F("hpminMetWWLevel",         "", 1000, 0, 1000);
+  hPtLepton1WWLevel       = CreateH1F("hPtLepton1WWLevel",       "", 3000, 0, 3000);
+  hPtLepton2WWLevel       = CreateH1F("hPtLepton2WWLevel",       "", 3000, 0, 3000);
+  hPtDiLeptonWWLevel      = CreateH1F("hPtDiLeptonWWLevel",      "", 3000, 0, 3000);
+  hMinvWWLevel            = CreateH1F("hMinvWWLevel",            "", 3000, 0, 3000);
+  hMtWWLevel              = CreateH1F("hMtWWLevel",              "", 3000, 0, 3000);
+  hMt1WWLevel             = CreateH1F("hMt1WWLevel",             "", 3000, 0, 3000);
+  hMt2WWLevel             = CreateH1F("hMt2WWLevel",             "", 3000, 0, 3000);
+  hpfMetWWLevel           = CreateH1F("hpfMetWWLevel",           "", 3000, 0, 3000);
+  hpminMetWWLevel         = CreateH1F("hpminMetWWLevel",         "", 3000, 0, 3000);
   hDeltaRLeptonsWWLevel   = CreateH1F("hDeltaRLeptonsWWLevel",   "",   50, 0,    5);
   hDeltaPhiLeptonsWWLevel = CreateH1F("hDeltaPhiLeptonsWWLevel", "",   32, 0,  3.2);
   hDPhiPtllJetWWLevel     = CreateH1F("hDPhiPtllJetWWLevel",     "",   32, 0,  3.2);
   hDPhillMetWWLevel       = CreateH1F("hDPhillMetWWLevel",       "",   32, 0,  3.2);
-  hMcWWLevel              = CreateH1F("hMcWWLevel",              "", 1000, 0, 1000);  
-  hPtWWWWLevel            = CreateH1F("hPtWWWWLevel",            "", 1000, 0, 1000);
-  hTrkMetWWLevel          = CreateH1F("hTrkMetWWLevel",          "", 1000, 0, 1000);
-  hHtWWLevel              = CreateH1F("hHtWWLevel",              "", 1000, 0, 1000);
+  hMcWWLevel              = CreateH1F("hMcWWLevel",              "", 3000, 0, 3000);  
+  hPtWWWWLevel            = CreateH1F("hPtWWWWLevel",            "", 3000, 0, 3000);
+  hTrkMetWWLevel          = CreateH1F("hTrkMetWWLevel",          "", 3000, 0, 3000);
+  hHtWWLevel              = CreateH1F("hHtWWLevel",              "", 3000, 0, 3000);
   hdphijetjetWWLevel      = CreateH1F("hdphijetjetWWLevel",      "",   32, 0,  3.2);
   hdetajetjetWWLevel      = CreateH1F("hdetajetjetWWLevel",      "",   50, 0,  5.0);
+
+  //Control Region Plots
+  //----------------------------------------------------------------------------                
+
+  hpfMetCR  = CreateH1F("hpfMetCR",           "", 3000, 0, 3000);
+  htrkMetCR = CreateH1F("htrkMetCR",          "", 3000, 0, 3000);
+  hmpMetCR  = CreateH1F("hmpMetCR",           "", 3000, 0, 3000);
+
 
   // monoH level histograms     
   //----------------------------------------------------------------------------  
 
   for (Int_t nC=0; nC<4; nC++) {
 
-    hPtLepton1monoHLevel[nC]       = CreateH1F(Form("hPtLepton1monoHLevel%.1i", nC),       "", 1000, 0, 1000);
-    hPtLepton2monoHLevel[nC]       = CreateH1F(Form("hPtLepton2monoHLevel%.1i", nC),       "", 1000, 0, 1000);
-    hPtDiLeptonmonoHLevel[nC]      = CreateH1F(Form("hPtDiLeptonmonoHLevel%.1i", nC),      "", 1000, 0, 1000);
-    hMinvmonoHLevel[nC]            = CreateH1F(Form("hMinvmonoHLevel%.1i", nC),            "", 1000, 0, 1000);
-    hMtmonoHLevel[nC]              = CreateH1F(Form("hMtmonoHLevel%.1i", nC),              "", 1000, 0, 1000);
-    hMt1monoHLevel[nC]             = CreateH1F(Form("hMt1monoHLevel%.1i", nC),             "", 1000, 0, 1000);
-    hMt2monoHLevel[nC]             = CreateH1F(Form("hMt2monoHLevel%.1i", nC),             "", 1000, 0, 1000);
-    hpfMetmonoHLevel[nC]           = CreateH1F(Form("hpfMetmonoHLevel%.1i", nC),           "", 1000, 0, 1000);
-    hpminMetmonoHLevel[nC]         = CreateH1F(Form("hpminMetmonoHLevel%.1i", nC),         "", 1000, 0, 1000);
+    hPtLepton1monoHLevel[nC]       = CreateH1F(Form("hPtLepton1monoHLevel%.1i", nC),       "", 3000, 0, 3000);
+    hPtLepton2monoHLevel[nC]       = CreateH1F(Form("hPtLepton2monoHLevel%.1i", nC),       "", 3000, 0, 3000);
+    hPtDiLeptonmonoHLevel[nC]      = CreateH1F(Form("hPtDiLeptonmonoHLevel%.1i", nC),      "", 3000, 0, 3000);
+    hMinvmonoHLevel[nC]            = CreateH1F(Form("hMinvmonoHLevel%.1i", nC),            "", 3000, 0, 3000);
+    hMtmonoHLevel[nC]              = CreateH1F(Form("hMtmonoHLevel%.1i", nC),              "", 3000, 0, 3000);
+    hMt1monoHLevel[nC]             = CreateH1F(Form("hMt1monoHLevel%.1i", nC),             "", 3000, 0, 3000);
+    hMt2monoHLevel[nC]             = CreateH1F(Form("hMt2monoHLevel%.1i", nC),             "", 3000, 0, 3000);
+    hpfMetmonoHLevel[nC]           = CreateH1F(Form("hpfMetmonoHLevel%.1i", nC),           "", 3000, 0, 3000);
+    hpminMetmonoHLevel[nC]         = CreateH1F(Form("hpminMetmonoHLevel%.1i", nC),         "", 3000, 0, 3000);
     hDeltaRLeptonsmonoHLevel[nC]   = CreateH1F(Form("hDeltaRLeptonsmonoHLevel%.1i", nC),   "",   50, 0,    5);
     hDeltaPhiLeptonsmonoHLevel[nC] = CreateH1F(Form("hDeltaPhiLeptonsmonoHLevel%.1i", nC), "",   32, 0,  3.2);
     hDPhiPtllJetmonoHLevel[nC]     = CreateH1F(Form("hDPhiPtllJetmonoHLevel%.1i", nC),     "",   32, 0,  3.2);
     hDPhillMetmonoHLevel[nC]       = CreateH1F(Form("hDPhillMetmonoHLevel%.1i", nC),       "",   32, 0,  3.2);
-    hPtWWmonoHLevel[nC]            = CreateH1F(Form("hPtWWmonoHLevel%.1i", nC),            "", 1000, 0, 1000);
-    hMcmonoHLevel[nC]              = CreateH1F(Form("hMcmonoHLevel%.1i", nC),              "", 1000, 0, 1000);
-    hTrkMetmonoHLevel[nC]          = CreateH1F(Form("hTrkMetmonoHLevel%.1i", nC),          "", 1000, 0, 1000);
-    hHtmonoHLevel[nC]              = CreateH1F(Form("hHtmonoHLevel%.1i", nC),              "", 1000, 0, 1000);
+    hPtWWmonoHLevel[nC]            = CreateH1F(Form("hPtWWmonoHLevel%.1i", nC),            "", 3000, 0, 3000);
+    hMcmonoHLevel[nC]              = CreateH1F(Form("hMcmonoHLevel%.1i", nC),              "", 3000, 0, 3000);
+    hTrkMetmonoHLevel[nC]          = CreateH1F(Form("hTrkMetmonoHLevel%.1i", nC),          "", 3000, 0, 3000);
+    hHtmonoHLevel[nC]              = CreateH1F(Form("hHtmonoHLevel%.1i", nC),              "", 3000, 0, 3000);
     hdphijetjetmonoHLevel[nC]      = CreateH1F(Form("hdphijetjetmonoHLevel%.1i", nC),      "",   32, 0,  3.2);
     hdetajetjetmonoHLevel[nC]      = CreateH1F(Form("hdetajetjetmonoHLevel%.1i", nC),      "",   50, 0,  5.0);
   }
@@ -240,18 +248,6 @@ void test::InsideLoop() {
     if(std_vector_jet_pt->at(i) > 0)
       Ht += std_vector_jet_pt->at(i);
   
-  //reject background prompt-prompt events
-  Float_t prompt = 1;
-  if(TheSample == "TTJets" || TheSample == "Top" || TheSample == "QCD" || TheSample == "WJets")
-    if(fabs(std_vector_leptonGen_mpid -> at(0)) == 24 && 
-       fabs(std_vector_leptonGen_mstatus -> at(0)) > 20 && 
-      fabs(std_vector_leptonGen_mstatus -> at(0)) < 30)
-      if(fabs(std_vector_leptonGen_mpid -> at(1)) == 24 && 
-	 fabs(std_vector_leptonGen_mstatus -> at(1)) > 20 && 
-	 fabs(std_vector_leptonGen_mstatus -> at(1)) < 30)
-	prompt = 0;
-  
-
   //building ptWW
   TLorentzVector L1,L2;
   TLorentzVector MET;
@@ -381,34 +377,41 @@ void test::InsideLoop() {
 			hWnBtaggedJets->Fill(nbjet, totalW);
 			hWeffnBtaggedJets->Fill(nbjet, efficiencyW);
 			
-			hPtLepton1WWLevel      ->Fill(pt1,       totalW);
-			hPtLepton2WWLevel      ->Fill(pt2,       totalW);
-			hPtDiLeptonWWLevel     ->Fill(ptll,      totalW);
-			hMinvWWLevel           ->Fill(mll,       totalW);
-			hMtWWLevel             ->Fill(mth,       totalW);
-			hMt1WWLevel            ->Fill(Mt1,       totalW);
-			hMt2WWLevel            ->Fill(Mt2,       totalW);
-			hpfMetWWLevel          ->Fill(pfType1Met,totalW);
-			hpminMetWWLevel        ->Fill(mpmet,     totalW);
-			hDeltaRLeptonsWWLevel  ->Fill(drll,      totalW);
-			hDeltaPhiLeptonsWWLevel->Fill(dphill,    totalW);
-			hDPhiPtllJetWWLevel    ->Fill(dphilljet, totalW);
-			hDPhillMetWWLevel      ->Fill(dphillmet, totalW);		  
-			hMcWWLevel             ->Fill(Mc,        totalW);		  
-			hPtWWWWLevel           ->Fill(ptWW,      totalW);		  
-			hTrkMetWWLevel         ->Fill(trkMet,    totalW);
-			hHtWWLevel             ->Fill(Ht,        totalW);			
-			hdphijetjetWWLevel     ->Fill(dphijetjet,totalW);
-			hdetajetjetWWLevel     ->Fill(detajetjet,totalW);
-
 			//b-veto
 			if (bveto_ip == 1 && nbjettche == 0) {
-			     
+			  
 			  hWTopTagging->Fill(1, totalW);
 			  hWeffTopTagging->Fill(1, efficiencyW);
 			  
 			  hWSoftMuVeto->Fill(1, totalW);
 			  hWeffSoftMuVeto->Fill(1,efficiencyW);
+			  
+			  hPtLepton1WWLevel      ->Fill(pt1,       totalW);
+			  hPtLepton2WWLevel      ->Fill(pt2,       totalW);
+			  hPtDiLeptonWWLevel     ->Fill(ptll,      totalW);
+			  hMinvWWLevel           ->Fill(mll,       totalW);
+			  hMtWWLevel             ->Fill(mth,       totalW);
+			  hMt1WWLevel            ->Fill(Mt1,       totalW);
+			  hMt2WWLevel            ->Fill(Mt2,       totalW);
+			  hpfMetWWLevel          ->Fill(pfType1Met,totalW);
+			  hpminMetWWLevel        ->Fill(mpmet,     totalW);
+			  hDeltaRLeptonsWWLevel  ->Fill(drll,      totalW);
+			  hDeltaPhiLeptonsWWLevel->Fill(dphill,    totalW);
+			  hDPhiPtllJetWWLevel    ->Fill(dphilljet, totalW);
+			  hDPhillMetWWLevel      ->Fill(dphillmet, totalW);		  
+			  hMcWWLevel             ->Fill(Mc,        totalW);		  
+			  hPtWWWWLevel           ->Fill(ptWW,      totalW);		  
+			  hTrkMetWWLevel         ->Fill(trkMet,    totalW);
+			  hHtWWLevel             ->Fill(Ht,        totalW);			
+			  hdphijetjetWWLevel     ->Fill(dphijetjet,totalW);
+			  hdetajetjetWWLevel     ->Fill(detajetjet,totalW);
+			  
+			  //Control Region Selections - on Top of WW Cuts
+			  if (drll > 1.5){
+			    hpfMetCR  -> Fill (pfType1Met, totalW);
+			    htrkMetCR -> Fill (trkMet,     totalW);
+			    hmpMetCR  -> Fill (mpmet,      totalW);
+			  }
 			  
 			  //monoHiggs Selections
 			  if (Mc < 100){
@@ -591,6 +594,13 @@ void test::SetDataMembersAtTermination() {
   hHtWWLevel              = ((TH1F*) FindOutput("hHtWWLevel"));
   hdphijetjetWWLevel      = ((TH1F*) FindOutput("hdphijetjetWWLevel"));
   hdetajetjetWWLevel      = ((TH1F*) FindOutput("hdetajetjetWWLevel"));
+
+  //Control Region histograms
+  //----------------------------------------------------------------------------                
+  
+  hpfMetCR  = ((TH1F*) FindOutput("hpfMetCR"));
+  htrkMetCR = ((TH1F*) FindOutput("htrkMetCR"));
+  hmpMetCR  = ((TH1F*) FindOutput("hmpMetCR"));
 
   // monoH level histograms                                             
   //----------------------------------------------------------------------------  

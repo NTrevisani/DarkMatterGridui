@@ -19,14 +19,16 @@ CHANNELS="OF"
 PROOFMODE="Cluster"
 
 SAMPLES="
-Dark1000           \
-Dark500            \
 Dark100            \
 Dark10             \
+Dark1              \
 ZH                 \
 HWW                \
 WW                 \
 "
+#TTJets             \
+#DY                 \
+#"
 #Dark100            \
 #Dark500            \
 #Dark1000           \

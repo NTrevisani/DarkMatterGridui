@@ -152,19 +152,8 @@ void RunPROOF_test(double luminosity,
       gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_ppTOzh_zTO2v_hTOwwTO2l2v.root");
     }
 
-    if (theSample == "Top") {
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TBarToLeptons_s.root");
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TBarToLeptons_t.root");
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TToLeptons_s.root");
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TToLeptons_t.root");
-    }
-    
-    else if (theSample == "QCD"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_QCD.root");
-    }
-    
     else if (theSample == "WJets"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_WJetsToLNu.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/latinoNoElement/25ns/latino_WJetsToLNu.root");
     }
     
     else if (theSample == "WW"){
@@ -180,11 +169,11 @@ void RunPROOF_test(double luminosity,
     }
 
     else if (theSample == "TTJets"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_TTJets.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/latinoNoElement/25ns/latino_TTJets.root");
     }
 
     else if (theSample == "DY"){
-      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/newLatino/latino_DYJetsToLL.root");
+      gPAFOptions->dataFiles.push_back("/gpfs/csic_projects/cms/trevisanin/latinoNoElement/25ns/latino_DYJetsToLL.root");
     }
   }
   else
