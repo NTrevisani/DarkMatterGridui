@@ -108,7 +108,8 @@ void drawDistributions(Int_t    njet       = 0,
 		       Bool_t   drawRatio  = true,
 		       Bool_t   dataDriven = false,
 		       Bool_t   savePlots  = true,
-		       Bool_t   setLogy    = false)
+		       Bool_t   setLogy    = false,
+		       TString  scaleXS    = "1")
 {
 
   //loading macros
@@ -138,6 +139,7 @@ void drawDistributions(Int_t    njet       = 0,
   //TString path = Form("rootfiles/%djet/%s/", _njet, _channel.Data());
 
   TString path = Form("rootFiles/AllJet/%s/", _channel.Data());
+  path = path + scaleXS + "/";
 
   for (UInt_t ip=0; ip<nProcesses; ip++)
     input[ip] = new TFile(path + process[ip] + ".root", "read");
@@ -490,7 +492,6 @@ void DrawHistogram(TString  hname,
 
   //  cout<<hist[iData]->GetBinContent(hist[iData]->GetMaximumBin())<<endl;
 
-  
   hist[iData]->Draw("ep");
 
   hstack     ->Draw("hist,same");
@@ -552,7 +553,6 @@ void DrawHistogram(TString  hname,
   if (_dataDriven) {
     DrawTLatex(0.9, 0.770 + deltaY, 0.06, "data-driven normalization");
   }
-
 
   //----------------------------------------------------------------------------
   // pad2

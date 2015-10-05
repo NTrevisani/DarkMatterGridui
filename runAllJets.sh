@@ -7,40 +7,30 @@ if [ $# -lt 1 ]; then
 fi
 
 
-LUMINOSITY=100
+LUMINOSITY=0.004008
 
-TEST="test"
-
-NJETS=0
+NJETS=$1
 
 CHANNELS="OF"
 #"All SF OF EE MuE EMu MuMu "
 
-PROOFMODE="Cluster"
+PROOFMODE="Sequential"
+
+SAMESIGN="OS" 
+
+MUONIDS="MediumIDTighterIP"
+#"MediumIDTighterIP MediumID TightID TightIDTighterIP"
 
 SAMPLES="
-Dark100            \
-Dark10             \
-Dark1              \
-ZH                 \
-HWW                \
-WW                 \
+Data201550
+WW50
+HWW25
+monoH_500GeV25
+monoH_1GeV25
+monoH_10GeV25
+monoH_100GeV25
+monoH_1000GeV25
 "
-#TTJets             \
-#DY                 \
-#"
-#Dark100            \
-#Dark500            \
-#Dark1000           \
-#Dark1              \
-#QCD                \ 
-#Top                \
-#WJets              \
-#TTJets             \
-#VBF                \
-#"
-
-#rm -rf rootfiles/${NJETS}jet
 
 mkdir rootFiles
 
@@ -49,12 +39,15 @@ for CHANNEL in $CHANNELS; do
 
     for SAMPLE in $SAMPLES; do 
 	
-	mkdir rootFiles/AllJet/
-	mkdir rootFiles/AllJet/${CHANNEL}	
-	mkdir rootFiles/AllJet/${CHANNEL}/${MULTIPLICATEXS}	
-	root -l -b -q "RunPROOF_test.C($LUMINOSITY,\"$TEST\",\"$SAMPLE\","$NJETS",\"$CHANNEL\",\"$PROOFMODE\")"
-	mv ${SAMPLE}.root rootFiles/AllJet/${CHANNEL}/${MULTIPLICATEXS}
-  
+	for MUONID in $MUONIDS; do 
+
+	    mkdir rootFiles/
+	    mkdir rootFiles/${CHANNEL}	
+	    mkdir rootFiles/${CHANNEL}/${MUONID}	
+	    root -l -b -q "RunMuonAnalyzer.C(\"$SAMPLE\",\"$CHANNEL\",\"$SAMESIGN\",\"$PROOFMODE\",$LUMINOSITY,\"$MUONID\")"  
+
+	done
+
     done
 
 done
